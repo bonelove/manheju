@@ -1,0 +1,36 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>漫和居 · 管理员后台</title><link rel="stylesheet" href="assets/css/admin.css"></head>
+<body><div class="wrap">
+<h1>漫和居公寓 · 管理员后台</h1>
+<p class="hint" id="modeHint"></p>
+
+<!-- 设置新密码（邮件回调） -->
+<section class="card" id="recoveryBox" style="display:none"><h2>设置新密码</h2>
+<p class="hint">你是通过邮件链接回来的，请设置新密码后登录。</p>
+<label>新密码（至少6位）</label><input type="password" id="newPw">
+<div class="row" style="margin-top:12px"><button id="setPwBtn">保存新密码</button></div><p id="recoveryMsg"></p></section>
+
+<!-- 登录 -->
+<section class="card" id="loginBox">
+<h2>管理员登录</h2>
+<label>邮箱</label><input type="email" id="email" autocomplete="username" placeholder="admin@example.com">
+<label>密码</label><input type="password" id="password" autocomplete="current-password">
+<div class="row" style="margin-top:14px"><button id="loginBtn">登录</button><button class="ghost" id="forgotBtn">首次设置密码 / 忘记密码</button></div>
+<p class="hint">第一次登录请先点“首次设置密码 / 忘记密码”，系统会给你的邮箱发一封邮件，点邮件里的链接回来设置密码，之后就能用邮箱+这个密码登录了。</p>
+<p id="loginMsg"></p></section>
+
+<!-- 后台主体 -->
+<div id="panel" style="display:none">
+<div class="row"><span class="grow">已登录：<b id="who"></b></span><button class="ghost small" id="logoutBtn">退出登录</button><a class="btn ghost" style="min-height:38px;padding:8px 12px;font-size:14px" href="index.html" target="_blank">查看客户首页 ↗</a></div>
+<div class="tabs">
+<button data-tab="stores" class="on">门店</button><button data-tab="types">房型与图片视频</button><button data-tab="rooms">实时空房</button><button data-tab="sheets">原始价格表</button>
+</div>
+
+<section id="tab-stores"></section>
+<section id="tab-types" style="display:none"></section>
+<section id="tab-rooms" style="display:none"></section>
+<section id="tab-sheets" style="display:none"></section>
+</div>
+</div>
+<script src="js/config.js"></script><script src="js/demo-data.js"></script><script src="js/data-service.js"></script>
+<script src="js/admin.js"></script>
+</body></html>

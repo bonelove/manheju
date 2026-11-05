@@ -1,0 +1,35 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>漫和居公寓 · 武汉精装公寓直租</title><link rel="stylesheet" href="assets/css/main.css"></head>
+<body>
+<div id="demoBanner" class="demo-banner" style="display:none">当前为演示模式（示例数据）· 配置 Supabase 后自动切换为正式数据</div>
+<header class="hero"><h1>漫和居公寓</h1><p>武汉精装公寓直租 · 无中介费，自家房源直租</p>
+<div class="common-adv"><span>精装</span><span>拎包入住</span><span>家具家电齐全</span><span>可短租</span><span>押一付一</span></div></header>
+<main class="wrap" style="padding-bottom:16px">
+  <p class="pick-hint">按地址选店，点进去看房型图片和当前空房 ↓</p>
+  <div id="storeList"><div class="empty">正在加载门店…</div></div>
+</main>
+<footer style="padding:10px 16px 24px">漫和居公寓 · 武汉</footer>
+<script src="js/config.js"></script><script src="js/demo-data.js"></script><script src="js/data-service.js"></script>
+<script>
+if(!ManjuData.isLive) document.getElementById('demoBanner').style.display='block';
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function tagsOf(s){
+  let t = Array.isArray(s.highlights) ? s.highlights : (typeof s.highlights==='string' && s.highlights ? s.highlights.split(/[,，]/) : []);
+  t = t.map(x=>String(x).trim()).filter(Boolean);
+  if(!t.length){ // 正式数据没填优势时，用交通/地标自动兜底，保证一目了然
+    t=['精装','拎包入住'];
+    if(s.transit_name) t.push(s.transit_distance ? (s.transit_name+' '+s.transit_distance) : s.transit_name);
+    else if(s.landmark) t.push('近'+s.landmark);
+  }
+  return t.slice(0,4);
+}
+ManjuData.listPublicStores().then(stores=>{
+  const el=document.getElementById('storeList');
+  if(!stores.length){ el.innerHTML='<div class="empty">暂时还没有已开放的门店</div>'; return; }
+  el.innerHTML=stores.map(s=>`<a class="store-row" href="store.html?store=${encodeURIComponent(s.slug)}">
+    ${s.cover_url?`<img class="thumb" loading="lazy" src="${esc(s.cover_url)}" alt="">`:`<span class="thumb-none">漫和居</span>`}
+    <span class="info"><span class="top"><h3>${esc(s.name)}</h3><span class="price">${esc(s.starting_price)}元<small style="font-size:12px;color:var(--muted);font-weight:400">/月起</small></span></span>
+    <span class="addr">📍 ${esc(s.address||'')}${s.transit_name?`<br>🚇 ${esc(s.transit_name)}${s.transit_distance?' · '+esc(s.transit_distance):''}`:''}</span>
+    <span class="tags">${tagsOf(s).map(h=>`<span class="tag">${esc(h)}</span>`).join('')}</span></span>
+    <span class="go">›</span></a>`).join('');
+}).catch(e=>{ document.getElementById('storeList').innerHTML='<div class="empty">加载失败，请刷新重试。<br><small>'+esc(e.message)+'</small></div>'; });
+</script></body></html>
