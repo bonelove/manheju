@@ -8,5 +8,5 @@ window.MANHEJU_CONFIG = {
   supabaseAnonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV2aXZ4Ymd2dmhlbmtqdXJueWdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMzNzIzNzIsImV4cCI6MjEwODk0ODM3Mn0.9n1o7RCyK_oKLgMC2gdU-5XB5ajcu-cBhaRbBzcUqqs",
   siteName: "漫和居公寓",
   // 部署后的正式网址（可留空，系统会用当前网址自动拼门店链接）
-  siteBaseUrl: "https://yogalin0323.github.io/manheju"
+  siteBaseUrl: "https://bonelove.github.io/manheju"
 };
