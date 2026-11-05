@@ -1,0 +1,35 @@
+:root{--bg:#FAF8F4;--card:#fff;--ink:#26241f;--muted:#6f6a5e;--accent:#23483a;--accent2:#b07d4f;--line:#e8e2d6;--tag:#eef3f0;--radius:14px}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6}
+a{color:inherit;text-decoration:none}img{display:block;max-width:100%}
+.wrap{max-width:760px;margin:0 auto;padding:0 16px 40px}
+.hero{padding:18px 16px 10px;text-align:center}.hero h1{font-size:24px;letter-spacing:.06em;margin:0;color:var(--accent)}.hero p{color:var(--muted);margin:2px 0 0;font-size:13px}
+.common-adv{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:10px 0 4px}.common-adv span{background:var(--tag);color:var(--accent);border-radius:999px;padding:3px 10px;font-size:13px}
+.pick-hint{text-align:center;color:var(--muted);font-size:13px;margin:8px 0 10px}
+.section-title{font-size:20px;margin:26px 0 12px;color:var(--ink)}
+.store-row{display:flex;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:10px;align-items:stretch;min-height:104px}
+.store-row .thumb{width:88px;flex:0 0 88px;border-radius:10px;object-fit:cover;background:#ddd}
+.store-row .thumb-none{width:88px;flex:0 0 88px;border-radius:10px;background:var(--tag);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:13px;text-align:center;padding:6px}
+.store-row .info{flex:1;min-width:0;display:flex;flex-direction:column}
+.store-row .top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.store-row h3{margin:0;font-size:17px;line-height:1.35}
+.store-row .price{font-size:16px;white-space:nowrap}
+.store-row .addr{color:var(--muted);font-size:13px;line-height:1.45;margin-top:2px}
+.store-row .tags{margin-top:auto;padding-top:6px}.store-row .tag{font-size:12px;padding:2px 8px}
+.store-row .go{color:var(--accent2);font-size:13px;white-space:nowrap;align-self:center}
+.price{color:var(--accent2);font-weight:700;font-size:18px}.price small{color:var(--muted);font-weight:400}
+.meta{color:var(--muted);font-size:14px;margin-top:4px}
+.cover-hero{width:100%;aspect-ratio:16/10;object-fit:cover;background:#ddd}
+.store-head{padding:18px 4px 4px}.store-head h1{font-size:26px;margin:0}.loc{color:var(--muted);font-size:15px;margin-top:8px}.loc div{margin:2px 0}
+.type-card{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-bottom:18px}
+.gallery{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0;-webkit-overflow-scrolling:touch}
+.gallery img,.gallery video{width:86%;flex:0 0 86%;aspect-ratio:4/3;object-fit:cover;scroll-snap-align:start;background:#111}
+.type-body{padding:14px 16px}.type-body h3{margin:0 0 6px;font-size:19px}.type-body p{color:var(--muted);margin:0;font-size:15px}
+.tags{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}.tag{background:var(--tag);color:var(--accent);border-radius:999px;padding:3px 10px;font-size:13px}
+.room-card{display:flex;justify-content:space-between;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;align-items:center}
+.room-card .rn{font-size:18px;font-weight:700}.room-card .rt{color:var(--muted);font-size:14px}.room-card .rp{text-align:right}.room-card .rp b{color:var(--accent2);font-size:17px}.badge{background:#e7f2ea;color:var(--accent);padding:2px 8px;border-radius:999px;font-size:12px;white-space:nowrap}
+.fees{background:#f3efe7;border-radius:16px;padding:18px;margin-top:28px;font-size:15px}.fees h3{margin-top:0;color:var(--accent)}.fees li{margin:6px 0}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:28px 16px}
+.empty{background:var(--card);border:1px dashed var(--line);border-radius:14px;padding:22px;text-align:center;color:var(--muted)}
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;z-index:50}.lightbox.open{display:flex}.lightbox img{max-width:96vw;max-height:92vh}
+.demo-banner{background:#fff7e8;border-bottom:1px solid #ecd9ae;color:#7a5a16;text-align:center;font-size:13px;padding:8px 12px}
+@media(min-width:700px){.advantages{grid-template-columns:repeat(4,1fr)}.gallery img,.gallery video{width:62%;flex-basis:62%}}
