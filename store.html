@@ -1,7 +1,7 @@
 <!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>漫和居公寓 · 门店详情</title><link rel="stylesheet" href="assets/css/main.css"></head>
 <body>
 <div id="demoBanner" class="demo-banner" style="display:none">当前为演示模式（示例数据）</div>
-<main class="wrap" style="padding:0 16px 40px"><div id="app"><div class="empty" style="margin-top:24px">正在加载…</div></div></main>
+<main class="wrap" style="padding-top:0"><div id="app"><div class="empty" style="margin-top:24px">正在加载…</div></div></main>
 <div class="lightbox" id="lightbox"><img id="lightboxImg" alt="放大图"></div>
 <script src="js/config.js"></script><script src="js/demo-data.js"></script><script src="js/data-service.js"></script>
 <script>
@@ -21,17 +21,19 @@ window.zoom=function(src){ document.getElementById('lightboxImg').src=src; lb.cl
     const media=await ManjuData.listMediaForTypes(types.map(t=>t.id));
     const rooms=await ManjuData.listPublicRooms(store.id);
     const typeName=id=>{ const t=types.find(x=>x.id===id); return t?t.name:''; };
+    const hl=(Array.isArray(store.highlights)?store.highlights:(typeof store.highlights==='string'&&store.highlights?store.highlights.split(/[,，]/):[])).map(x=>String(x).trim()).filter(Boolean);
     app.innerHTML=`
+      <div class="backbar"><a href="index.html">‹ 全部门店</a></div>
       ${store.cover_url?`<img class="cover-hero" src="${esc(store.cover_url)}" alt="${esc(store.name)}">`:''}
-      <div class="store-head"><div class="price" style="font-size:15px"><a href="index.html">← 全部门店</a></div>
-      <h1>${esc(store.name)}</h1><div class="price">${esc(store.starting_price)}元/月起</div>
+      <div class="store-head"><h1>${esc(store.name)}</h1>
+      <div class="price"><b>${esc(store.starting_price)}</b> 元/月起 <small>· 押一付一 · 无中介费</small></div>
       <div class="loc"><div>📍 ${esc(store.address||'')}</div>
       ${store.transit_name?`<div>🚇 ${esc(store.transit_name)}${store.transit_distance?' · '+esc(store.transit_distance):''}</div>`:''}
       ${store.landmark?`<div>🏙 附近：${esc(store.landmark)}</div>`:''}</div>
       ${store.summary?`<p style="color:var(--muted)">${esc(store.summary)}</p>`:''}
-      ${store.highlights&&store.highlights.length?`<div class="tags">${(Array.isArray(store.highlights)?store.highlights:store.highlights.split(/[,，]/)).map(h=>`<span class="tag">${esc(h)}</span>`).join('')}</div>`:''}</div>
+      ${hl.length?`<div class="tags" style="margin-top:12px">${hl.map((h,j)=>`<span class="tag${j<2?' hot':''}">${esc(h)}</span>`).join('')}</div>`:''}</div>
 
-      <h2 class="section-title">房型展示</h2>
+      <h2 class="section-title">房型展示<small>${types.length?types.length+' 种房型':''}</small></h2>
       ${types.length?types.map(t=>{ const ms=media[t.id]||[]; const gallery = ms.length?ms: (t.cover_url?[{media_type:'image',media_url:t.cover_url}]:[]);
         return `<article class="type-card">${gallery.length?`<div class="gallery">${gallery.map(m=> m.media_type==='video'
           ? `<video controls playsinline preload="metadata" src="${esc(m.media_url)}"></video>`
@@ -39,7 +41,7 @@ window.zoom=function(src){ document.getElementById('lightboxImg').src=src; lb.cl
         <div class="type-body"><h3>${esc(t.name)}</h3><p>${esc(t.summary||'')}</p>
         ${t.highlights&&t.highlights.length?`<div class="tags">${(Array.isArray(t.highlights)?t.highlights:t.highlights.split(/[,，]/)).map(h=>`<span class="tag">${esc(h)}</span>`).join('')}</div>`:''}</div></article>`}).join(''):'<div class="empty">这家门店的房型照片正在整理中</div>'}
 
-      <h2 class="section-title">当前可租房源</h2>
+      <h2 class="section-title">当前可租房源<small>${rooms.length?rooms.length+' 间可租':''}</small></h2>
       ${rooms.length?rooms.map(r=>`<div class="room-card"><div><div class="rn">${esc(r.room_number)} 房</div><div class="rt">${esc(r.type_label||typeName(r.room_type_id)||'')}</div>${r.public_note?`<div class="rt">${esc(r.public_note)}</div>`:''}</div><div class="rp"><b>${esc(r.rent)}元/月</b><div class="rt">管理费${esc(r.management_fee??150)}元</div><span class="badge">可租</span></div></div>`).join(''):'<div class="empty">目前暂时没有公开的可租房源，房源更新中</div>'}
 
       <section class="fees"><h3>收费说明（统一）</h3><ul>
@@ -47,6 +49,7 @@ window.zoom=function(src){ document.getElementById('lightboxImg').src=src; lb.cl
       <li>公寓管理费 150元/月，包含宽带网络、公区打扫、家电家具维修</li>
       <li>无中介费，自家房源直租，自有团队打理，安全性好</li>
       <li>支持短租，1个月起；长租也可以，押一付一</li></ul></section>
+      <div class="sticky-cta"><div><div class="p"><b>${esc(store.starting_price)}</b> 元/月起</div><div class="n">${esc(store.name)} · 当前 ${rooms.length} 间可租</div></div><div class="n" style="text-align:right">房源实时更新<br>看房请微信联系门店</div></div>
       <footer>漫和居公寓 · ${esc(store.name)}<br>看中房源请通过微信直接联系门店</footer>`;
   }catch(e){ app.innerHTML='<div class="empty" style="margin-top:24px">加载失败，请刷新重试。<br><small>'+esc(e.message)+'</small></div>'; }
 })();
