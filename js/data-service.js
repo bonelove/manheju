@@ -1,7 +1,7 @@
-// 数据层 v3：客户页面只读与网站同域托管的数据快照（js/demo-data.js），完全不请求海外服务器。
-// 背景：Supabase 在巴黎，国内没开 VPN 的手机连不上，门店页会整页加载失败（2026-11-06 实测）。
-// 快照由发布流程从数据库导出，与网站一起部署；管理员功能仍走 Supabase REST/Auth/Storage。
-// 演示模式（config 没填 Supabase）= localStorage 示例数据，逻辑不变。
+// 数据层 v4：客户页面经国内中转（腾讯云广州→巴黎）实时读数据库，后台改完立即生效；
+// 中转万一不通，自动回退到与网站同域托管的快照（js/demo-data.js），页面照样能看（数据可能不是最新）。
+// 背景：Supabase 在巴黎，国内没开 VPN 的手机直连不上（v3 时期只能用快照）；2026-11-06 中转建成后恢复实时。
+// 管理员功能同样走中转。演示模式（config 没填 Supabase）= localStorage 示例数据，逻辑不变。
 (function(){
   const cfg = window.MANHEJU_CONFIG || {};
   const isLive = !!(cfg.supabaseUrl && cfg.supabaseAnonKey);
@@ -96,25 +96,47 @@
     return { stores: d.stores||[], roomTypes: d.roomTypes||[], roomMedia: d.roomMedia||[], availableRooms: d.availableRooms||[], priceSheets: d.priceSheets||[] };
   }
 
+  // 实时数据：经国内中转拉数据库最新内容（与快照相同的筛选口径）；失败/超时自动回退快照。
+  let _livePromise = null;
+  function liveDB(){
+    if(!isLive) return Promise.resolve(snapshotDB());
+    if(_livePromise) return _livePromise;
+    const strip = rows => (rows||[]).map(r=>{ const {created_at, updated_at, ...rest} = r; return rest; });
+    _livePromise = (async()=>{
+      const [stores, roomTypes, allMedia, availableRooms] = await Promise.all([
+        rest("stores", "select=*&is_active=eq.true&order=sort_order.asc", { retries: 0 }),
+        rest("room_types", "select=*&is_active=eq.true&order=sort_order.asc", { retries: 0 }),
+        rest("room_media", "select=*&order=sort_order.asc", { retries: 0 }),
+        rest("available_rooms", "select=*&is_public=eq.true&status=eq.available&order=sort_order.asc", { retries: 0 })
+      ]);
+      if(!stores || !stores.length) throw new Error("实时数据为空");
+      const typeIds = new Set(roomTypes.map(t=>t.id));
+      return { stores: strip(stores), roomTypes: strip(roomTypes),
+        roomMedia: strip(allMedia).filter(m=>typeIds.has(m.room_type_id)),
+        availableRooms: strip(availableRooms), priceSheets: snapshotDB().priceSheets };
+    })().catch(()=>{ _livePromise = null; return snapshotDB(); });
+    return _livePromise;
+  }
+
   const api = {
     isLive, STATUS_LABEL,
 
-    // ===== 客户前端（公开读取，只读同域快照，零海外请求）=====
+    // ===== 客户前端（公开读取：经国内中转实时读库，失败自动回退同域快照）=====
     async listPublicStores(){
-      return snapshotDB().stores.filter(s=>s.is_active).sort(bySort);
+      return (await liveDB()).stores.filter(s=>s.is_active).sort(bySort);
     },
     async getPublicStoreBySlug(slug){
-      return snapshotDB().stores.find(s=>s.slug===slug && s.is_active) || null;
+      return (await liveDB()).stores.find(s=>s.slug===slug && s.is_active) || null;
     },
     async listPublicRoomTypes(storeId){
-      return snapshotDB().roomTypes.filter(t=>t.store_id===storeId && t.is_active).sort(bySort);
+      return (await liveDB()).roomTypes.filter(t=>t.store_id===storeId && t.is_active).sort(bySort);
     },
     async listMediaForTypes(typeIds){
       if(!typeIds.length) return {};
-      const out={}; snapshotDB().roomMedia.filter(m=>typeIds.includes(m.room_type_id)).sort(bySort).forEach(m=>{(out[m.room_type_id]=out[m.room_type_id]||[]).push(m)}); return out;
+      const out={}; (await liveDB()).roomMedia.filter(m=>typeIds.includes(m.room_type_id)).sort(bySort).forEach(m=>{(out[m.room_type_id]=out[m.room_type_id]||[]).push(m)}); return out;
     },
     async listPublicRooms(storeId){
-      return snapshotDB().availableRooms.filter(r=>r.store_id===storeId && r.is_public && r.status==="available").sort(bySort);
+      return (await liveDB()).availableRooms.filter(r=>r.store_id===storeId && r.is_public && r.status==="available").sort(bySort);
     },
 
     // ===== 管理员 =====
