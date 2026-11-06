@@ -32,11 +32,12 @@ function tagsOf(s){
 ManjuData.listPublicStores().then(stores=>{
   const el=document.getElementById('storeList');
   if(!stores.length){ el.innerHTML='<div class="empty">暂时还没有已开放的门店</div>'; return; }
-  el.innerHTML=stores.map((s,i)=>`<a class="store-row" style="--i:${i}" href="store.html?store=${encodeURIComponent(s.slug)}">
+  if(stores[0] && stores[0]._cached){ el.innerHTML='<div style="text-align:center;color:var(--faint);font-size:12.5px;margin:0 0 10px">网络较慢，先显示缓存的门店信息，点进门店看最新房源</div>'; } else { el.innerHTML=''; }
+  el.innerHTML+=stores.map((s,i)=>`<a class="store-row" style="--i:${i}" href="store.html?store=${encodeURIComponent(s.slug)}">
     ${s.cover_url?`<img class="thumb" loading="lazy" src="${esc(s.cover_url)}" alt="">`:`<span class="thumb-none">漫和居</span>`}
     <span class="info"><span class="top"><h3>${esc(s.name)}</h3><span class="price"><b>${esc(s.starting_price)}</b>元<small style="font-size:12px;color:var(--muted);font-weight:400">/月起</small></span></span>
     <span class="addr">📍 ${esc(s.address||'')}${s.transit_name?`<br>🚇 ${esc(s.transit_name)}${s.transit_distance?' · '+esc(s.transit_distance):''}`:''}</span>
     <span class="tags">${tagsOf(s).map((h,j)=>`<span class="tag${j<2?' hot':''}">${esc(h)}</span>`).join('')}</span></span>
     <span class="go">›</span></a>`).join('');
-}).catch(e=>{ document.getElementById('storeList').innerHTML='<div class="empty">加载失败，请刷新重试。<br><small>'+esc(e.message)+'</small></div>'; });
+}).catch(e=>{ document.getElementById('storeList').innerHTML='<div class="empty">门店没加载出来，可能是网络信号不好。<br><a href="javascript:location.reload()" style="color:var(--accent);font-weight:700">点这里重新加载</a></div>'; });
 </script></body></html>
