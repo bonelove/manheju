@@ -1,6 +1,6 @@
-// 数据层 v2：所有页面只通过这里读写数据。
-// 正式模式改用原生 fetch 直连 Supabase REST/Auth/Storage，不再加载任何第三方 CDN 组件
-// （旧版从 jsdelivr 加载 supabase-js，国内很多网络打不开该域名，会导致整页“Load failed”）。
+// 数据层 v3：客户页面只读与网站同域托管的数据快照（js/demo-data.js），完全不请求海外服务器。
+// 背景：Supabase 在巴黎，国内没开 VPN 的手机连不上，门店页会整页加载失败（2026-11-06 实测）。
+// 快照由发布流程从数据库导出，与网站一起部署；管理员功能仍走 Supabase REST/Auth/Storage。
 // 演示模式（config 没填 Supabase）= localStorage 示例数据，逻辑不变。
 (function(){
   const cfg = window.MANHEJU_CONFIG || {};
@@ -89,40 +89,32 @@
   const bySort = (a,b)=>(a.sort_order||0)-(b.sort_order||0);
   const STATUS_LABEL = { available:"可租", reserved:"已预订", rented:"已出租", maintenance:"维修中" };
 
+  // 客户页面数据源：与网站同域托管的快照（window.MANHEJU_DEMO_DB，直读全局对象，
+  // 不经过 localStorage，避免老访客被旧种子数据挡住更新）。
+  function snapshotDB(){
+    const d = window.MANHEJU_DEMO_DB || {};
+    return { stores: d.stores||[], roomTypes: d.roomTypes||[], roomMedia: d.roomMedia||[], availableRooms: d.availableRooms||[], priceSheets: d.priceSheets||[] };
+  }
+
   const api = {
     isLive, STATUS_LABEL,
 
-    // ===== 客户前端（公开读取）=====
+    // ===== 客户前端（公开读取，只读同域快照，零海外请求）=====
     async listPublicStores(){
-      if(!isLive){ return demoDB().stores.filter(s=>s.is_active).sort(bySort); }
-      try{
-        return await rest("stores", qs({ select:"*", is_active:"eq.true", order:"sort_order.asc" }), { retries:2 }) || [];
-      }catch(e){
-        // 网络实在连不上时，首页先展示与数据库同步过的缓存门店（价格/标签一致），避免客户看到空白错误页
-        const cached = demoDB().stores.filter(s=>s.is_active).sort(bySort).map(s=>({ ...s, _cached:true }));
-        if(cached.length) return cached;
-        throw e;
-      }
+      return snapshotDB().stores.filter(s=>s.is_active).sort(bySort);
     },
     async getPublicStoreBySlug(slug){
-      if(!isLive){ return demoDB().stores.find(s=>s.slug===slug && s.is_active) || null; }
-      const rows = await rest("stores", qs({ select:"*", slug:"eq."+slug, is_active:"eq.true" }), { retries:2 });
-      return (rows && rows[0]) || null;
+      return snapshotDB().stores.find(s=>s.slug===slug && s.is_active) || null;
     },
     async listPublicRoomTypes(storeId){
-      if(!isLive){ return demoDB().roomTypes.filter(t=>t.store_id===storeId && t.is_active).sort(bySort); }
-      return await rest("room_types", qs({ select:"*", store_id:"eq."+storeId, is_active:"eq.true", order:"sort_order.asc" }), { retries:2 }) || [];
+      return snapshotDB().roomTypes.filter(t=>t.store_id===storeId && t.is_active).sort(bySort);
     },
     async listMediaForTypes(typeIds){
       if(!typeIds.length) return {};
-      if(!isLive){ const out={}; demoDB().roomMedia.filter(m=>typeIds.includes(m.room_type_id)).sort(bySort).forEach(m=>{(out[m.room_type_id]=out[m.room_type_id]||[]).push(m)}); return out; }
-      const data = await rest("room_media", "select=*&room_type_id=in.(" + typeIds.join(",") + ")&order=sort_order.asc", { retries:2 });
-      const out={}; (data||[]).forEach(m=>{(out[m.room_type_id]=out[m.room_type_id]||[]).push(m)}); return out;
+      const out={}; snapshotDB().roomMedia.filter(m=>typeIds.includes(m.room_type_id)).sort(bySort).forEach(m=>{(out[m.room_type_id]=out[m.room_type_id]||[]).push(m)}); return out;
     },
     async listPublicRooms(storeId){
-      if(!isLive){ return demoDB().availableRooms.filter(r=>r.store_id===storeId && r.is_public && r.status==="available").sort(bySort); }
-      const data = await rest("available_rooms", qs({ select:"*,room_types(name)", store_id:"eq."+storeId, is_public:"eq.true", status:"eq.available", order:"sort_order.asc" }), { retries:2 });
-      return (data||[]).map(r=>({ ...r, type_label: r.type_label || (r.room_types && r.room_types.name) || "" }));
+      return snapshotDB().availableRooms.filter(r=>r.store_id===storeId && r.is_public && r.status==="available").sort(bySort);
     },
 
     // ===== 管理员 =====
