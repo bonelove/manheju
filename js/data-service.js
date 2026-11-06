@@ -152,8 +152,16 @@
     async setPasswordFromRecovery(newPassword){
       if(!isLive) throw new Error("演示模式不支持邮件回调");
       const h = new URLSearchParams((location.hash || "").replace(/^#/, ""));
-      const token = h.get("access_token");
-      if(!token) throw new Error("链接里缺少验证令牌，请重新点邮件里的链接进来。");
+      let token = h.get("access_token");
+      // 新流程：邮件链接直达本站（不经巴黎验证页），带 token_hash，先经国内中转换成会话令牌
+      if(!token && h.get("token_hash")){
+        const v = await req(BASE + "/auth/v1/verify", {
+          method:"POST", headers:{ "apikey": ANON, "Content-Type":"application/json" },
+          body: JSON.stringify({ token_hash: h.get("token_hash"), type: h.get("type") || "recovery" })
+        }, 0);
+        token = v && v.access_token;
+      }
+      if(!token) throw new Error("链接里缺少验证令牌，请重新点邮件里的链接进来。链接可能已过期，重新发一封试试。");
       await req(BASE + "/auth/v1/user", {
         method:"PUT", headers:{ "apikey": ANON, "Authorization":"Bearer " + token, "Content-Type":"application/json" },
         body: JSON.stringify({ password: newPassword })
