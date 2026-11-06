@@ -1,130 +1,1235 @@
-// 演示数据：未配置 Supabase 时自动使用。正式上线后会被 Supabase 云端数据替代。
-// 图片为氛围示意图（Unsplash），正式使用请在后台换成门店真实实拍。
+// 网站数据快照：客户页面只读这份与网站同域托管的打包数据（国内网络可直接打开），
+// 内容与云端数据库同步于 2026-11-06；后台管理仍走 Supabase，改完数据后需重新发布快照。
 window.MANHEJU_DEMO_DB = {
-  stores: [
-    { id:"s1", highlights:["微公交直达地铁站","多路公交门口有站","古田商圈·近凯德西城","临长丰大道主干道","生活配套成熟","独门独户","可短租·押一付一"], name:"硚口长安路", slug:"qiaokou-changan", starting_price:1150, address:"武汉市硚口区长安路附近", summary:"生活配套成熟，精装独立公寓，通勤和日常生活都方便。", transit_name:"微公交接驳常码头站（3号线）", transit_distance:"多路公交可达", landmark:"古田商圈 · 凯德西城", sort_order:1, is_active:true, cover_url:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&q=80&auto=format&fit=crop" },
-    { id:"s2", highlights:["楼下就是商场","生活气息足","骑行10分钟到常码头地铁站","近1号线古田四路站","古田四路主干道旁","独门独户·拎包入住","可短租·押一付一"], name:"硚口天地", slug:"qiaokou-tiandi", starting_price:1000, address:"武汉市硚口区古田四路288号", summary:"独立卫浴与完整生活功能，适合一个人轻松入住。", transit_name:"常码头站（3号线）· 古田四路站（1号线）", transit_distance:"骑行约10分钟", landmark:"楼下商场 · 古田四路", sort_order:2, is_active:true, cover_url:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80&auto=format&fit=crop" },
-    { id:"s3", highlights:["地铁口约100米","1号线·21号线双线换乘","新荣天街上盖·下楼逛商场","300+品牌·吃喝玩乐齐全","多路公交直达","近堤角公园","独门独户·可短租"], name:"后湖新荣 · 地铁100米", slug:"xinrong-metro", starting_price:1300, address:"新荣站地铁口约100米", summary:"离地铁近，减少通勤时间，周边生活和商业配套便利。", transit_name:"新荣站（1号线·21号线换乘）", transit_distance:"步行约100米", landmark:"新荣天街 · 堤角公园", sort_order:3, is_active:true, cover_url:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=80&auto=format&fit=crop" },
-    { id:"s4", highlights:["1号线竹叶海站","天桥直达宜家荟聚","宜家家居下楼即达","荟聚300+品牌·影院超市齐全","紧邻三环线·自驾方便","近竹叶海公园","独门独户·拎包入住"], name:"竹叶海宜家荟聚", slug:"zhuyehai-ikea", starting_price:1000, address:"竹叶海宜家荟聚商圈附近", summary:"靠近大型商圈，吃饭、购物和休闲选择丰富。", transit_name:"竹叶海站（1号线）", transit_distance:"天桥直达商场", landmark:"宜家家居 · 荟聚中心", sort_order:4, is_active:true, cover_url:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=1200&q=80&auto=format&fit=crop" },
-    { id:"s5", highlights:["近1号线汉西一路站","一站到宗关·换乘3号线","12号线双墩站辐射","汉西建材市场旁","解放大道20余条公交","云鹤小区门口·烟火气足","独门独户·押一付一"], name:"汉西三路云鹤小区门口", slug:"hanxi-third-road", starting_price:1250, address:"武汉市硚口区汉西三路96号（云鹤小区门口）", summary:"成熟社区旁的精装公寓，居住安静，日常配套齐全。", transit_name:"地铁1号线汉西一路站", transit_distance:"步行可达", landmark:"汉西建材市场 · 云鹤小区", sort_order:5, is_active:true, cover_url:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=1200&q=80&auto=format&fit=crop" },
-    { id:"s6", highlights:["11号线光谷四路站","可换乘光谷空轨","高新大道·名企聚集","近武汉大悦城","光谷中央生态大走廊旁","近西苑公园·鸡公山公园","独门独户·独立厨卫"], name:"光谷东店", slug:"guanggu-dong", starting_price:1400, address:"武汉市光谷东片区，近地铁11号线光谷四路站", summary:"光谷东精装公寓，独门独户，独立厨卫，拎包入住。", transit_name:"地铁11号线光谷四路站", transit_distance:"步行可达", landmark:"武汉大悦城 · 光谷中央生态大走廊", sort_order:6, is_active:true, cover_url:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=1200&q=80&auto=format&fit=crop" }
-  ],
-  roomTypes: [
-    { id:"d-td-1", store_id:"s2", name:"一房一厅（01/16房型）", summary:"月租1650元 · 客厅卧室分开，独立厨房卫生间，带大窗阳台，家具家电齐全，拎包入住。", highlights:["一房一厅", "独立厨卫", "带阳台", "拎包入住"], cover_url:"media/tiandi/t01/1.jpg", sort_order:1, is_active:true },
-    { id:"d-td-2", store_id:"s2", name:"一房一厅（02/15房型）", summary:"月租1650元 · 拱门设计卧室，大客厅采光好，独立厨卫，收纳柜充足。", highlights:["一房一厅", "拱门设计", "大客厅", "独立厨卫"], cover_url:"media/tiandi/t02/1.jpg", sort_order:2, is_active:true },
-    { id:"d-td-3", store_id:"s2", name:"精装大开间（03房型）", summary:"月租1300元 · 精装大开间，带书桌和阳台，独立卫浴，附实拍视频可看全貌。", highlights:["精装大开间", "独立卫浴", "带视频"], cover_url:"media/tiandi/t03/1.jpg", sort_order:3, is_active:true },
-    { id:"d-td-4", store_id:"s2", name:"弧形落地窗单间（04房型）", summary:"月租1350元 · 特色弧形落地窗，视野开阔，独立厨卫，洗衣机冰箱齐全。", highlights:["弧形落地窗", "独立厨卫", "视野好"], cover_url:"media/tiandi/t04/1.jpg", sort_order:4, is_active:true },
-    { id:"d-td-5", store_id:"s2", name:"一房一厅（06/11房型）", summary:"月租1450元 · 玻璃隔断卧室，客厅带沙发茶几，独立厨卫，收纳充足。", highlights:["一房一厅", "玻璃隔断", "独立厨卫"], cover_url:"media/tiandi/t05/1.jpg", sort_order:5, is_active:true },
-    { id:"d-td-6", store_id:"s2", name:"精装小单间（07/10房型）", summary:"月租1100元 · 小巧实用，独立卫浴，衣柜书架齐全，一个人住性价比高。", highlights:["精装小单间", "独立卫浴", "性价比高"], cover_url:"media/tiandi/t06/1.jpg", sort_order:6, is_active:true },
-    { id:"d-td-7", store_id:"s2", name:"宽敞大开间（08/09房型）", summary:"月租1450元 · 空间宽敞，睡眠会客分区，带书桌，独立厨卫，冰箱洗衣机齐全。", highlights:["大开间", "空间宽敞", "带书桌", "独立厨卫"], cover_url:"media/tiandi/t07/1.jpg", sort_order:7, is_active:true },
-    { id:"d-td-8", store_id:"s2", name:"弧形阳台单间（13房型）", summary:"月租1350元 · 拱门隔断分区，弧形大阳台采光足，独立厨卫，带书桌衣柜。", highlights:["弧形阳台", "拱门隔断", "独立厨卫"], cover_url:"media/tiandi/t08/1.jpg", sort_order:8, is_active:true },
-    { id:"d-td-9", store_id:"s2", name:"一房一厅（14房型）", summary:"月租1550元 · 独立厨房带窗，椭圆窗隔断设计，客厅卧室分明，独立卫浴。", highlights:["一房一厅", "独立厨房", "独立卫浴"], cover_url:"media/tiandi/t09/1.jpg", sort_order:9, is_active:true },
-    { id:"d-td-10", store_id:"s2", name:"温馨小套间（17房型）", summary:"月租1100元 · 独立厨房带大窗，卧室带书桌，独立卫浴，紧凑实用。", highlights:["温馨小套间", "独立厨房", "独立卫浴"], cover_url:"media/tiandi/t10/1.jpg", sort_order:10, is_active:true },
-    { id:"d-td-11", store_id:"s2", name:"一房一厅（05/12房型）", summary:"月租1500元 · 大客厅，卧室整墙衣柜，落地窗采光好，独立厨卫。", highlights:["一房一厅", "大客厅", "整墙衣柜", "独立厨卫"], cover_url:"media/tiandi/t11/1.jpg", sort_order:11, is_active:true },
-    { id:"d-hx-1", store_id:"s5", name:"标准一室一厅（南向）", summary:"月租1600元 · 南向带阳台，卧室与客厅隔断分区，独立卫浴，采光好。", highlights:["南向", "带阳台", "隔断分区", "独立卫浴"], cover_url:"media/hanxi/t01/1.jpg", sort_order:1, is_active:true },
-    { id:"d-hx-2", store_id:"s5", name:"标准一室一厅", summary:"月租1600元 · 卧室客厅隔断分区，有独立厨房台面，独立卫浴，家具家电齐全。", highlights:["隔断分区", "独立卫浴", "拎包入住"], cover_url:"media/hanxi/t02/1.jpg", sort_order:2, is_active:true },
-    { id:"d-hx-3", store_id:"s5", name:"宽敞一室一厅", summary:"月租1650元 · 空间更大，客厅更宽敞，卧室客厅隔断分区，独立卫浴，收纳充足。", highlights:["空间宽敞", "客厅大", "隔断分区"], cover_url:"media/hanxi/t03/1.jpg", sort_order:3, is_active:true },
-    { id:"t1", store_id:"s1", name:"精装单间", summary:"独立卫浴，家具家电齐全，一个人住刚刚好。", highlights:["独立卫浴","家具家电齐全","拎包入住"], cover_url:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&q=80&auto=format&fit=crop", sort_order:1, is_active:true },
-    { id:"t2", store_id:"s1", name:"大开间", summary:"空间更宽敞，可分区休息与办公。", highlights:["空间宽敞","采光好"], cover_url:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80&auto=format&fit=crop", sort_order:2, is_active:true },
-    { id:"t4", store_id:"s3", name:"地铁口单间", summary:"出门就是地铁，通勤省时。", highlights:["地铁100米","独立卫浴"], cover_url:"https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=1200&q=80&auto=format&fit=crop", sort_order:1, is_active:true },
-    { id:"t6", store_id:"s6", name:"一房一厅", summary:"40–50㎡，独门独户，独立厨卫，洗衣机冰箱配齐。", highlights:["独门独户","独立厨卫","洗衣机冰箱齐全"], cover_url:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=1200&q=80&auto=format&fit=crop", sort_order:1, is_active:true }
-  ],
-  roomMedia: [
-    { id:"dm-td-1-1", room_type_id:"d-td-1", media_type:"image", media_url:"media/tiandi/t01/1.jpg", sort_order:1 },
-    { id:"dm-td-1-2", room_type_id:"d-td-1", media_type:"image", media_url:"media/tiandi/t01/2.jpg", sort_order:2 },
-    { id:"dm-td-1-3", room_type_id:"d-td-1", media_type:"image", media_url:"media/tiandi/t01/3.jpg", sort_order:3 },
-    { id:"dm-td-1-4", room_type_id:"d-td-1", media_type:"image", media_url:"media/tiandi/t01/4.jpg", sort_order:4 },
-    { id:"dm-td-1-5", room_type_id:"d-td-1", media_type:"image", media_url:"media/tiandi/t01/5.jpg", sort_order:5 },
-    { id:"dm-td-1-6", room_type_id:"d-td-1", media_type:"image", media_url:"media/tiandi/t01/6.jpg", sort_order:6 },
-    { id:"dm-td-2-1", room_type_id:"d-td-2", media_type:"image", media_url:"media/tiandi/t02/1.jpg", sort_order:1 },
-    { id:"dm-td-2-2", room_type_id:"d-td-2", media_type:"image", media_url:"media/tiandi/t02/2.jpg", sort_order:2 },
-    { id:"dm-td-2-3", room_type_id:"d-td-2", media_type:"image", media_url:"media/tiandi/t02/3.jpg", sort_order:3 },
-    { id:"dm-td-2-4", room_type_id:"d-td-2", media_type:"image", media_url:"media/tiandi/t02/4.jpg", sort_order:4 },
-    { id:"dm-td-2-5", room_type_id:"d-td-2", media_type:"image", media_url:"media/tiandi/t02/5.jpg", sort_order:5 },
-    { id:"dm-td-2-6", room_type_id:"d-td-2", media_type:"image", media_url:"media/tiandi/t02/6.jpg", sort_order:6 },
-    { id:"dm-td-2-v", room_type_id:"d-td-2", media_type:"video", media_url:"media/tiandi/t02/v.mp4", sort_order:7 },
-    { id:"dm-td-3-1", room_type_id:"d-td-3", media_type:"image", media_url:"media/tiandi/t03/1.jpg", sort_order:1 },
-    { id:"dm-td-3-2", room_type_id:"d-td-3", media_type:"image", media_url:"media/tiandi/t03/2.jpg", sort_order:2 },
-    { id:"dm-td-3-3", room_type_id:"d-td-3", media_type:"image", media_url:"media/tiandi/t03/3.jpg", sort_order:3 },
-    { id:"dm-td-3-v", room_type_id:"d-td-3", media_type:"video", media_url:"media/tiandi/t03/v.mp4", sort_order:4 },
-    { id:"dm-td-4-1", room_type_id:"d-td-4", media_type:"image", media_url:"media/tiandi/t04/1.jpg", sort_order:1 },
-    { id:"dm-td-4-2", room_type_id:"d-td-4", media_type:"image", media_url:"media/tiandi/t04/2.jpg", sort_order:2 },
-    { id:"dm-td-4-3", room_type_id:"d-td-4", media_type:"image", media_url:"media/tiandi/t04/3.jpg", sort_order:3 },
-    { id:"dm-td-4-4", room_type_id:"d-td-4", media_type:"image", media_url:"media/tiandi/t04/4.jpg", sort_order:4 },
-    { id:"dm-td-4-5", room_type_id:"d-td-4", media_type:"image", media_url:"media/tiandi/t04/5.jpg", sort_order:5 },
-    { id:"dm-td-5-1", room_type_id:"d-td-5", media_type:"image", media_url:"media/tiandi/t05/1.jpg", sort_order:1 },
-    { id:"dm-td-5-2", room_type_id:"d-td-5", media_type:"image", media_url:"media/tiandi/t05/2.jpg", sort_order:2 },
-    { id:"dm-td-5-3", room_type_id:"d-td-5", media_type:"image", media_url:"media/tiandi/t05/3.jpg", sort_order:3 },
-    { id:"dm-td-5-4", room_type_id:"d-td-5", media_type:"image", media_url:"media/tiandi/t05/4.jpg", sort_order:4 },
-    { id:"dm-td-5-5", room_type_id:"d-td-5", media_type:"image", media_url:"media/tiandi/t05/5.jpg", sort_order:5 },
-    { id:"dm-td-5-6", room_type_id:"d-td-5", media_type:"image", media_url:"media/tiandi/t05/6.jpg", sort_order:6 },
-    { id:"dm-td-6-1", room_type_id:"d-td-6", media_type:"image", media_url:"media/tiandi/t06/1.jpg", sort_order:1 },
-    { id:"dm-td-6-2", room_type_id:"d-td-6", media_type:"image", media_url:"media/tiandi/t06/2.jpg", sort_order:2 },
-    { id:"dm-td-7-1", room_type_id:"d-td-7", media_type:"image", media_url:"media/tiandi/t07/1.jpg", sort_order:1 },
-    { id:"dm-td-7-2", room_type_id:"d-td-7", media_type:"image", media_url:"media/tiandi/t07/2.jpg", sort_order:2 },
-    { id:"dm-td-7-3", room_type_id:"d-td-7", media_type:"image", media_url:"media/tiandi/t07/3.jpg", sort_order:3 },
-    { id:"dm-td-7-4", room_type_id:"d-td-7", media_type:"image", media_url:"media/tiandi/t07/4.jpg", sort_order:4 },
-    { id:"dm-td-7-5", room_type_id:"d-td-7", media_type:"image", media_url:"media/tiandi/t07/5.jpg", sort_order:5 },
-    { id:"dm-td-7-6", room_type_id:"d-td-7", media_type:"image", media_url:"media/tiandi/t07/6.jpg", sort_order:6 },
-    { id:"dm-td-8-1", room_type_id:"d-td-8", media_type:"image", media_url:"media/tiandi/t08/1.jpg", sort_order:1 },
-    { id:"dm-td-8-2", room_type_id:"d-td-8", media_type:"image", media_url:"media/tiandi/t08/2.jpg", sort_order:2 },
-    { id:"dm-td-8-3", room_type_id:"d-td-8", media_type:"image", media_url:"media/tiandi/t08/3.jpg", sort_order:3 },
-    { id:"dm-td-8-4", room_type_id:"d-td-8", media_type:"image", media_url:"media/tiandi/t08/4.jpg", sort_order:4 },
-    { id:"dm-td-8-5", room_type_id:"d-td-8", media_type:"image", media_url:"media/tiandi/t08/5.jpg", sort_order:5 },
-    { id:"dm-td-8-6", room_type_id:"d-td-8", media_type:"image", media_url:"media/tiandi/t08/6.jpg", sort_order:6 },
-    { id:"dm-td-9-1", room_type_id:"d-td-9", media_type:"image", media_url:"media/tiandi/t09/1.jpg", sort_order:1 },
-    { id:"dm-td-9-2", room_type_id:"d-td-9", media_type:"image", media_url:"media/tiandi/t09/2.jpg", sort_order:2 },
-    { id:"dm-td-9-3", room_type_id:"d-td-9", media_type:"image", media_url:"media/tiandi/t09/3.jpg", sort_order:3 },
-    { id:"dm-td-9-4", room_type_id:"d-td-9", media_type:"image", media_url:"media/tiandi/t09/4.jpg", sort_order:4 },
-    { id:"dm-td-9-5", room_type_id:"d-td-9", media_type:"image", media_url:"media/tiandi/t09/5.jpg", sort_order:5 },
-    { id:"dm-td-9-6", room_type_id:"d-td-9", media_type:"image", media_url:"media/tiandi/t09/6.jpg", sort_order:6 },
-    { id:"dm-td-9-v", room_type_id:"d-td-9", media_type:"video", media_url:"media/tiandi/t09/v.mp4", sort_order:7 },
-    { id:"dm-td-10-1", room_type_id:"d-td-10", media_type:"image", media_url:"media/tiandi/t10/1.jpg", sort_order:1 },
-    { id:"dm-td-10-2", room_type_id:"d-td-10", media_type:"image", media_url:"media/tiandi/t10/2.jpg", sort_order:2 },
-    { id:"dm-td-10-3", room_type_id:"d-td-10", media_type:"image", media_url:"media/tiandi/t10/3.jpg", sort_order:3 },
-    { id:"dm-td-10-4", room_type_id:"d-td-10", media_type:"image", media_url:"media/tiandi/t10/4.jpg", sort_order:4 },
-    { id:"dm-td-10-5", room_type_id:"d-td-10", media_type:"image", media_url:"media/tiandi/t10/5.jpg", sort_order:5 },
-    { id:"dm-td-10-v", room_type_id:"d-td-10", media_type:"video", media_url:"media/tiandi/t10/v.mp4", sort_order:6 },
-    { id:"dm-td-11-1", room_type_id:"d-td-11", media_type:"image", media_url:"media/tiandi/t11/1.jpg", sort_order:1 },
-    { id:"dm-td-11-2", room_type_id:"d-td-11", media_type:"image", media_url:"media/tiandi/t11/2.jpg", sort_order:2 },
-    { id:"dm-td-11-3", room_type_id:"d-td-11", media_type:"image", media_url:"media/tiandi/t11/3.jpg", sort_order:3 },
-    { id:"dm-td-11-4", room_type_id:"d-td-11", media_type:"image", media_url:"media/tiandi/t11/4.jpg", sort_order:4 },
-    { id:"dm-td-11-5", room_type_id:"d-td-11", media_type:"image", media_url:"media/tiandi/t11/5.jpg", sort_order:5 },
-    { id:"dm-td-11-6", room_type_id:"d-td-11", media_type:"image", media_url:"media/tiandi/t11/6.jpg", sort_order:6 },
-    { id:"dm-td-11-v", room_type_id:"d-td-11", media_type:"video", media_url:"media/tiandi/t11/v.mp4", sort_order:7 },
-    { id:"dm-hx-1-1", room_type_id:"d-hx-1", media_type:"image", media_url:"media/hanxi/t01/1.jpg", sort_order:1 },
-    { id:"dm-hx-1-2", room_type_id:"d-hx-1", media_type:"image", media_url:"media/hanxi/t01/2.jpg", sort_order:2 },
-    { id:"dm-hx-1-3", room_type_id:"d-hx-1", media_type:"image", media_url:"media/hanxi/t01/3.jpg", sort_order:3 },
-    { id:"dm-hx-1-4", room_type_id:"d-hx-1", media_type:"image", media_url:"media/hanxi/t01/4.jpg", sort_order:4 },
-    { id:"dm-hx-1-5", room_type_id:"d-hx-1", media_type:"image", media_url:"media/hanxi/t01/5.jpg", sort_order:5 },
-    { id:"dm-hx-1-6", room_type_id:"d-hx-1", media_type:"image", media_url:"media/hanxi/t01/6.jpg", sort_order:6 },
-    { id:"dm-hx-1-v", room_type_id:"d-hx-1", media_type:"video", media_url:"media/hanxi/t01/v.mp4", sort_order:7 },
-    { id:"dm-hx-2-1", room_type_id:"d-hx-2", media_type:"image", media_url:"media/hanxi/t02/1.jpg", sort_order:1 },
-    { id:"dm-hx-2-2", room_type_id:"d-hx-2", media_type:"image", media_url:"media/hanxi/t02/2.jpg", sort_order:2 },
-    { id:"dm-hx-2-3", room_type_id:"d-hx-2", media_type:"image", media_url:"media/hanxi/t02/3.jpg", sort_order:3 },
-    { id:"dm-hx-2-4", room_type_id:"d-hx-2", media_type:"image", media_url:"media/hanxi/t02/4.jpg", sort_order:4 },
-    { id:"dm-hx-2-5", room_type_id:"d-hx-2", media_type:"image", media_url:"media/hanxi/t02/5.jpg", sort_order:5 },
-    { id:"dm-hx-2-6", room_type_id:"d-hx-2", media_type:"image", media_url:"media/hanxi/t02/6.jpg", sort_order:6 },
-    { id:"dm-hx-2-v", room_type_id:"d-hx-2", media_type:"video", media_url:"media/hanxi/t02/v.mp4", sort_order:7 },
-    { id:"dm-hx-3-1", room_type_id:"d-hx-3", media_type:"image", media_url:"media/hanxi/t03/1.jpg", sort_order:1 },
-    { id:"dm-hx-3-2", room_type_id:"d-hx-3", media_type:"image", media_url:"media/hanxi/t03/2.jpg", sort_order:2 },
-    { id:"dm-hx-3-3", room_type_id:"d-hx-3", media_type:"image", media_url:"media/hanxi/t03/3.jpg", sort_order:3 },
-    { id:"dm-hx-3-4", room_type_id:"d-hx-3", media_type:"image", media_url:"media/hanxi/t03/4.jpg", sort_order:4 },
-    { id:"dm-hx-3-5", room_type_id:"d-hx-3", media_type:"image", media_url:"media/hanxi/t03/5.jpg", sort_order:5 },
-    { id:"dm-hx-3-6", room_type_id:"d-hx-3", media_type:"image", media_url:"media/hanxi/t03/6.jpg", sort_order:6 },
-    { id:"dm-hx-3-v", room_type_id:"d-hx-3", media_type:"video", media_url:"media/hanxi/t03/v.mp4", sort_order:7 },
-    { id:"m1", room_type_id:"t1", media_type:"image", media_url:"https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&q=80&auto=format&fit=crop", sort_order:1 },
-    { id:"m2", room_type_id:"t1", media_type:"image", media_url:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80&auto=format&fit=crop", sort_order:2 },
-    { id:"m3", room_type_id:"t6", media_type:"image", media_url:"https://images.unsplash.com/photo-1554995207-c18c203602cb?w=1200&q=80&auto=format&fit=crop", sort_order:1 },
-    { id:"m4", room_type_id:"t6", media_type:"image", media_url:"https://images.unsplash.com/photo-1484154218962-a197022b5858?w=1200&q=80&auto=format&fit=crop", sort_order:2 }
-  ],
-  availableRooms: [
-    { id:"r1", store_id:"s1", room_type_id:"t1", type_label:"单间", room_number:"207", rent:1250, management_fee:150, status:"available", public_note:"样板间", sort_order:1, is_public:true },
-    { id:"r2", store_id:"s1", room_type_id:"t1", type_label:"单间", room_number:"310", rent:1150, management_fee:150, status:"available", public_note:"", sort_order:2, is_public:true },
-    { id:"r3", store_id:"s1", room_type_id:"t2", type_label:"大开间", room_number:"403", rent:1450, management_fee:150, status:"available", public_note:"采光好", sort_order:3, is_public:true },
-    { id:"r4", store_id:"s1", room_type_id:"t1", type_label:"单间", room_number:"208", rent:1200, management_fee:150, status:"rented", public_note:"", sort_order:4, is_public:true },
-    { id:"r5", store_id:"s6", room_type_id:"t6", type_label:"一房一厅", room_number:"368", rent:1500, management_fee:150, status:"available", public_note:"独门独户", sort_order:1, is_public:true },
-    { id:"r6", store_id:"s3", room_type_id:"t4", type_label:"单间", room_number:"519", rent:1300, management_fee:150, status:"available", public_note:"近地铁", sort_order:1, is_public:true }
-  ],
-  priceSheets: []
+ "stores": [
+  {
+   "id": "db65e513-230c-4c87-ab5d-905ea10d043d",
+   "name": "硚口长安路",
+   "slug": "qiaokou-changan",
+   "starting_price": 1150,
+   "address": "武汉市硚口区长安路附近",
+   "summary": "生活配套成熟，精装独立公寓，通勤和日常生活都方便。",
+   "map_x": 34,
+   "map_y": 62,
+   "transit_name": "微公交接驳常码头站（3号线）",
+   "transit_distance": "多路公交可达",
+   "landmark": "古田商圈 · 凯德西城",
+   "sort_order": 1,
+   "is_active": true,
+   "highlights": [
+    "微公交直达地铁站",
+    "多路公交门口有站",
+    "古田商圈·近凯德西城",
+    "临长丰大道主干道",
+    "生活配套成熟",
+    "独门独户",
+    "可短租·押一付一"
+   ],
+   "cover_url": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&q=80&auto=format&fit=crop"
+  },
+  {
+   "id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "name": "硚口天地",
+   "slug": "qiaokou-tiandi",
+   "starting_price": 1000,
+   "address": "武汉市硚口区古田四路288号",
+   "summary": "独立卫浴与完整生活功能，适合一个人轻松入住。",
+   "map_x": 48,
+   "map_y": 64,
+   "transit_name": "常码头站（3号线）· 古田四路站（1号线）",
+   "transit_distance": "骑行约10分钟",
+   "landmark": "楼下商场 · 古田四路",
+   "sort_order": 2,
+   "is_active": true,
+   "highlights": [
+    "楼下就是商场",
+    "生活气息足",
+    "骑行10分钟到常码头地铁站",
+    "近1号线古田四路站",
+    "古田四路主干道旁",
+    "独门独户·拎包入住",
+    "可短租·押一付一"
+   ],
+   "cover_url": "media/tiandi/t01/1.jpg"
+  },
+  {
+   "id": "3526e215-08c5-4264-a701-3ad9a9ad2d27",
+   "name": "后湖新荣地铁100米",
+   "slug": "xinrong-metro",
+   "starting_price": 1300,
+   "address": "新荣站地铁口约100米",
+   "summary": "离地铁近，减少通勤时间，周边生活和商业配套便利。",
+   "map_x": 78,
+   "map_y": 31,
+   "transit_name": "新荣站（1号线·21号线换乘）",
+   "transit_distance": "步行约100米",
+   "landmark": "新荣天街 · 堤角公园",
+   "sort_order": 3,
+   "is_active": true,
+   "highlights": [
+    "地铁口约100米",
+    "1号线·21号线双线换乘",
+    "新荣天街上盖·下楼逛商场",
+    "300+品牌·吃喝玩乐齐全",
+    "多路公交直达",
+    "近堤角公园",
+    "独门独户·可短租"
+   ],
+   "cover_url": "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=80&auto=format&fit=crop"
+  },
+  {
+   "id": "fb9bfe72-8951-4995-9289-b8ace8d0c870",
+   "name": "竹叶海宜家荟聚",
+   "slug": "zhuyehai-ikea",
+   "starting_price": 1000,
+   "address": "竹叶海宜家荟聚商圈附近",
+   "summary": "靠近大型商圈，吃饭、购物和休闲选择丰富。",
+   "map_x": 20,
+   "map_y": 47,
+   "transit_name": "竹叶海站（1号线）",
+   "transit_distance": "天桥直达商场",
+   "landmark": "宜家家居 · 荟聚中心",
+   "sort_order": 4,
+   "is_active": true,
+   "highlights": [
+    "1号线竹叶海站",
+    "天桥直达宜家荟聚",
+    "宜家家居下楼即达",
+    "荟聚300+品牌·影院超市齐全",
+    "紧邻三环线·自驾方便",
+    "近竹叶海公园",
+    "独门独户·拎包入住"
+   ],
+   "cover_url": "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=1200&q=80&auto=format&fit=crop"
+  },
+  {
+   "id": "cce7dee4-a33e-493c-8cf0-4b816e448757",
+   "name": "汉西三路云鹤小区门口",
+   "slug": "hanxi-third-road",
+   "starting_price": 1250,
+   "address": "硚口区汉西三路96号，云鹤小区门口",
+   "summary": "成熟社区旁的精装公寓，居住安静，日常配套齐全。",
+   "map_x": 39,
+   "map_y": 49,
+   "transit_name": "地铁1号线汉西一路站",
+   "transit_distance": "步行可达",
+   "landmark": "汉西建材市场 · 云鹤小区",
+   "sort_order": 5,
+   "is_active": true,
+   "highlights": [
+    "近1号线汉西一路站",
+    "一站到宗关·换乘3号线",
+    "12号线双墩站辐射",
+    "汉西建材市场旁",
+    "解放大道20余条公交",
+    "云鹤小区门口·烟火气足",
+    "独门独户·押一付一"
+   ],
+   "cover_url": "media/hanxi/t01/1.jpg"
+  },
+  {
+   "id": "965ccf92-9a79-45b8-9725-baf762bc2f89",
+   "name": "光谷东店",
+   "slug": "guanggu-dong",
+   "starting_price": 1400,
+   "address": "武汉市光谷东片区，近地铁11号线光谷四路站",
+   "summary": "光谷东精装公寓，独门独户，独立厨卫，拎包入住。",
+   "map_x": null,
+   "map_y": null,
+   "transit_name": "地铁11号线光谷四路站",
+   "transit_distance": "步行可达",
+   "landmark": "武汉大悦城 · 光谷中央生态大走廊",
+   "sort_order": 6,
+   "is_active": true,
+   "highlights": [
+    "11号线光谷四路站",
+    "可换乘光谷空轨",
+    "高新大道·名企聚集",
+    "近武汉大悦城",
+    "光谷中央生态大走廊旁",
+    "近西苑公园·鸡公山公园",
+    "独门独户·独立厨卫"
+   ],
+   "cover_url": "https://images.unsplash.com/photo-1554995207-c18c203602cb?w=1200&q=80&auto=format&fit=crop"
+  }
+ ],
+ "roomTypes": [
+  {
+   "id": "04f226b9-ffbe-4e09-933c-62851dee8f33",
+   "store_id": "db65e513-230c-4c87-ab5d-905ea10d043d",
+   "name": "精装单间",
+   "summary": "独立卫浴，家具家电齐全，一个人住刚刚好。",
+   "highlights": [
+    "独立卫浴",
+    "家具家电齐全",
+    "拎包入住"
+   ],
+   "cover_url": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&q=80&auto=format&fit=crop",
+   "sort_order": 1,
+   "is_active": true
+  },
+  {
+   "id": "c796b0f9-4d4d-45c6-b652-7fdcabdb0e3c",
+   "store_id": "965ccf92-9a79-45b8-9725-baf762bc2f89",
+   "name": "一房一厅",
+   "summary": "40–50㎡，独门独户，独立厨卫，洗衣机冰箱配齐。",
+   "highlights": [
+    "独门独户",
+    "独立厨卫",
+    "洗衣机冰箱齐全"
+   ],
+   "cover_url": "https://images.unsplash.com/photo-1554995207-c18c203602cb?w=1200&q=80&auto=format&fit=crop",
+   "sort_order": 1,
+   "is_active": true
+  },
+  {
+   "id": "29079f6f-7e08-4f19-9a34-b0dae0b9db02",
+   "store_id": "cce7dee4-a33e-493c-8cf0-4b816e448757",
+   "name": "标准一室一厅（南向）",
+   "summary": "月租1600元 · 南向带阳台，卧室与客厅隔断分区，独立卫浴，采光好。",
+   "highlights": [
+    "南向",
+    "带阳台",
+    "隔断分区",
+    "独立卫浴"
+   ],
+   "cover_url": "media/hanxi/t01/1.jpg",
+   "sort_order": 1,
+   "is_active": true
+  },
+  {
+   "id": "d91f511f-78b9-4874-970d-f2065058ce7f",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "name": "一房一厅（01/16房型）",
+   "summary": "月租1650元 · 客厅卧室分开，独立厨房卫生间，带大窗阳台，家具家电齐全，拎包入住。",
+   "highlights": [
+    "一房一厅",
+    "独立厨卫",
+    "带阳台",
+    "拎包入住"
+   ],
+   "cover_url": "media/tiandi/t01/1.jpg",
+   "sort_order": 1,
+   "is_active": true
+  },
+  {
+   "id": "da0c04a6-b938-4a96-8d28-2796ab2474ce",
+   "store_id": "3526e215-08c5-4264-a701-3ad9a9ad2d27",
+   "name": "地铁口单间",
+   "summary": "出门就是地铁，通勤省时。",
+   "highlights": [
+    "地铁100米",
+    "独立卫浴"
+   ],
+   "cover_url": "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=1200&q=80&auto=format&fit=crop",
+   "sort_order": 1,
+   "is_active": true
+  },
+  {
+   "id": "4047ed0c-b892-4a5c-9c1f-def0557d6623",
+   "store_id": "cce7dee4-a33e-493c-8cf0-4b816e448757",
+   "name": "标准一室一厅",
+   "summary": "月租1600元 · 卧室客厅隔断分区，有独立厨房台面，独立卫浴，家具家电齐全。",
+   "highlights": [
+    "隔断分区",
+    "独立卫浴",
+    "拎包入住"
+   ],
+   "cover_url": "media/hanxi/t02/1.jpg",
+   "sort_order": 2,
+   "is_active": true
+  },
+  {
+   "id": "6caabd66-6313-4702-a022-dfc93514b01c",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "name": "一房一厅（02/15房型）",
+   "summary": "月租1650元 · 拱门设计卧室，大客厅采光好，独立厨卫，收纳柜充足。",
+   "highlights": [
+    "一房一厅",
+    "拱门设计",
+    "大客厅",
+    "独立厨卫"
+   ],
+   "cover_url": "media/tiandi/t02/1.jpg",
+   "sort_order": 2,
+   "is_active": true
+  },
+  {
+   "id": "9e124921-f220-4f9c-97f0-cc33a257d0dd",
+   "store_id": "db65e513-230c-4c87-ab5d-905ea10d043d",
+   "name": "大开间",
+   "summary": "空间更宽敞，可分区休息与办公。",
+   "highlights": [
+    "空间宽敞",
+    "采光好"
+   ],
+   "cover_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80&auto=format&fit=crop",
+   "sort_order": 2,
+   "is_active": true
+  },
+  {
+   "id": "444e2c0b-1eb6-4744-a69e-2fff50d3a989",
+   "store_id": "cce7dee4-a33e-493c-8cf0-4b816e448757",
+   "name": "宽敞一室一厅",
+   "summary": "月租1650元 · 空间更大，客厅更宽敞，卧室客厅隔断分区，独立卫浴，收纳充足。",
+   "highlights": [
+    "空间宽敞",
+    "客厅大",
+    "隔断分区"
+   ],
+   "cover_url": "media/hanxi/t03/1.jpg",
+   "sort_order": 3,
+   "is_active": true
+  },
+  {
+   "id": "70a9c1de-896a-4677-9e1d-fa10e0e6e45c",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "name": "精装大开间（03房型）",
+   "summary": "月租1300元 · 精装大开间，带书桌和阳台，独立卫浴，附实拍视频可看全貌。",
+   "highlights": [
+    "精装大开间",
+    "独立卫浴",
+    "带视频"
+   ],
+   "cover_url": "media/tiandi/t03/1.jpg",
+   "sort_order": 3,
+   "is_active": true
+  },
+  {
+   "id": "570cb2aa-bcdd-4e97-8d14-84f9a4b6a2b1",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "name": "弧形落地窗单间（04房型）",
+   "summary": "月租1350元 · 特色弧形落地窗，视野开阔，独立厨卫，洗衣机冰箱齐全。",
+   "highlights": [
+    "弧形落地窗",
+    "独立厨卫",
+    "视野好"
+   ],
+   "cover_url": "media/tiandi/t04/1.jpg",
+   "sort_order": 4,
+   "is_active": true
+  },
+  {
+   "id": "7c9d6942-fcea-4ef5-8bf6-d8e116f5e1b2",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "name": "一房一厅（06/11房型）",
+   "summary": "月租1450元 · 玻璃隔断卧室，客厅带沙发茶几，独立厨卫，收纳充足。",
+   "highlights": [
+    "一房一厅",
+    "玻璃隔断",
+    "独立厨卫"
+   ],
+   "cover_url": "media/tiandi/t05/1.jpg",
+   "sort_order": 5,
+   "is_active": true
+  },
+  {
+   "id": "9a3861bb-c7d4-43fe-85d7-71f40689ad37",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "name": "精装小单间（07/10房型）",
+   "summary": "月租1100元 · 小巧实用，独立卫浴，衣柜书架齐全，一个人住性价比高。",
+   "highlights": [
+    "精装小单间",
+    "独立卫浴",
+    "性价比高"
+   ],
+   "cover_url": "media/tiandi/t06/1.jpg",
+   "sort_order": 6,
+   "is_active": true
+  },
+  {
+   "id": "5ee50ef5-1548-4409-9e9b-6a4bad7bc280",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "name": "宽敞大开间（08/09房型）",
+   "summary": "月租1450元 · 空间宽敞，睡眠会客分区，带书桌，独立厨卫，冰箱洗衣机齐全。",
+   "highlights": [
+    "大开间",
+    "空间宽敞",
+    "带书桌",
+    "独立厨卫"
+   ],
+   "cover_url": "media/tiandi/t07/1.jpg",
+   "sort_order": 7,
+   "is_active": true
+  },
+  {
+   "id": "70edd968-7c6f-41cd-b2f0-9a774f3f8006",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "name": "弧形阳台单间（13房型）",
+   "summary": "月租1350元 · 拱门隔断分区，弧形大阳台采光足，独立厨卫，带书桌衣柜。",
+   "highlights": [
+    "弧形阳台",
+    "拱门隔断",
+    "独立厨卫"
+   ],
+   "cover_url": "media/tiandi/t08/1.jpg",
+   "sort_order": 8,
+   "is_active": true
+  },
+  {
+   "id": "32082f51-fec7-4dab-9e2c-87c87625a3d9",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "name": "一房一厅（14房型）",
+   "summary": "月租1550元 · 独立厨房带窗，椭圆窗隔断设计，客厅卧室分明，独立卫浴。",
+   "highlights": [
+    "一房一厅",
+    "独立厨房",
+    "独立卫浴"
+   ],
+   "cover_url": "media/tiandi/t09/1.jpg",
+   "sort_order": 9,
+   "is_active": true
+  },
+  {
+   "id": "fa6e16f1-f36b-4890-869f-4856c3a4e0bd",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "name": "温馨小套间（17房型）",
+   "summary": "月租1100元 · 独立厨房带大窗，卧室带书桌，独立卫浴，紧凑实用。",
+   "highlights": [
+    "温馨小套间",
+    "独立厨房",
+    "独立卫浴"
+   ],
+   "cover_url": "media/tiandi/t10/1.jpg",
+   "sort_order": 10,
+   "is_active": true
+  },
+  {
+   "id": "e93b2f5c-12c5-4ff6-8a22-6f8853f3286b",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "name": "一房一厅（05/12房型）",
+   "summary": "月租1500元 · 大客厅，卧室整墙衣柜，落地窗采光好，独立厨卫。",
+   "highlights": [
+    "一房一厅",
+    "大客厅",
+    "整墙衣柜",
+    "独立厨卫"
+   ],
+   "cover_url": "media/tiandi/t11/1.jpg",
+   "sort_order": 11,
+   "is_active": true
+  }
+ ],
+ "roomMedia": [
+  {
+   "id": "dd1dd516-f9bd-42a4-ab6e-b37af58f34bf",
+   "room_type_id": "4047ed0c-b892-4a5c-9c1f-def0557d6623",
+   "media_type": "image",
+   "media_url": "media/hanxi/t02/1.jpg",
+   "sort_order": 1
+  },
+  {
+   "id": "f6ba5631-e090-48ab-9930-ed4e5b3bc929",
+   "room_type_id": "04f226b9-ffbe-4e09-933c-62851dee8f33",
+   "media_type": "image",
+   "media_url": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=1200&q=80&auto=format&fit=crop",
+   "sort_order": 1
+  },
+  {
+   "id": "dee46717-2650-4cfc-ba40-7f3ad86c5290",
+   "room_type_id": "5ee50ef5-1548-4409-9e9b-6a4bad7bc280",
+   "media_type": "image",
+   "media_url": "media/tiandi/t07/1.jpg",
+   "sort_order": 1
+  },
+  {
+   "id": "2b511ce3-5783-4ffc-9cb7-e23784dceb6a",
+   "room_type_id": "c796b0f9-4d4d-45c6-b652-7fdcabdb0e3c",
+   "media_type": "image",
+   "media_url": "https://images.unsplash.com/photo-1554995207-c18c203602cb?w=1200&q=80&auto=format&fit=crop",
+   "sort_order": 1
+  },
+  {
+   "id": "9ed47640-69bf-42f2-ab94-eb1c2be95739",
+   "room_type_id": "32082f51-fec7-4dab-9e2c-87c87625a3d9",
+   "media_type": "image",
+   "media_url": "media/tiandi/t09/1.jpg",
+   "sort_order": 1
+  },
+  {
+   "id": "cb8a86bf-39f2-4a93-8ccc-d437e7e3b342",
+   "room_type_id": "9a3861bb-c7d4-43fe-85d7-71f40689ad37",
+   "media_type": "image",
+   "media_url": "media/tiandi/t06/1.jpg",
+   "sort_order": 1
+  },
+  {
+   "id": "2cce57f4-b960-46b6-b013-d22bd9c75d34",
+   "room_type_id": "70a9c1de-896a-4677-9e1d-fa10e0e6e45c",
+   "media_type": "image",
+   "media_url": "media/tiandi/t03/1.jpg",
+   "sort_order": 1
+  },
+  {
+   "id": "4073e1dc-500c-4f62-aa73-5baa1bd9053a",
+   "room_type_id": "444e2c0b-1eb6-4744-a69e-2fff50d3a989",
+   "media_type": "image",
+   "media_url": "media/hanxi/t03/1.jpg",
+   "sort_order": 1
+  },
+  {
+   "id": "d0cc2b6d-8760-47d3-b6d9-3ca5dc2b8d7f",
+   "room_type_id": "29079f6f-7e08-4f19-9a34-b0dae0b9db02",
+   "media_type": "image",
+   "media_url": "media/hanxi/t01/1.jpg",
+   "sort_order": 1
+  },
+  {
+   "id": "a3d1ea61-39e3-4b87-8dc0-bc604bf0c970",
+   "room_type_id": "e93b2f5c-12c5-4ff6-8a22-6f8853f3286b",
+   "media_type": "image",
+   "media_url": "media/tiandi/t11/1.jpg",
+   "sort_order": 1
+  },
+  {
+   "id": "c6722d1f-3235-46b3-83d9-2d993a25839d",
+   "room_type_id": "7c9d6942-fcea-4ef5-8bf6-d8e116f5e1b2",
+   "media_type": "image",
+   "media_url": "media/tiandi/t05/1.jpg",
+   "sort_order": 1
+  },
+  {
+   "id": "a79d24f2-f185-4693-aacc-3e3f802c14df",
+   "room_type_id": "fa6e16f1-f36b-4890-869f-4856c3a4e0bd",
+   "media_type": "image",
+   "media_url": "media/tiandi/t10/1.jpg",
+   "sort_order": 1
+  },
+  {
+   "id": "f30f693b-2d42-4088-b27d-61f91614b118",
+   "room_type_id": "70edd968-7c6f-41cd-b2f0-9a774f3f8006",
+   "media_type": "image",
+   "media_url": "media/tiandi/t08/1.jpg",
+   "sort_order": 1
+  },
+  {
+   "id": "7ac8c855-9f60-47bb-b43e-de6f37a0e399",
+   "room_type_id": "d91f511f-78b9-4874-970d-f2065058ce7f",
+   "media_type": "image",
+   "media_url": "media/tiandi/t01/1.jpg",
+   "sort_order": 1
+  },
+  {
+   "id": "73856f41-bfe5-4d7e-ad6f-20cf1889da76",
+   "room_type_id": "570cb2aa-bcdd-4e97-8d14-84f9a4b6a2b1",
+   "media_type": "image",
+   "media_url": "media/tiandi/t04/1.jpg",
+   "sort_order": 1
+  },
+  {
+   "id": "5a68393c-1e88-4914-8e72-6d30beb7f760",
+   "room_type_id": "6caabd66-6313-4702-a022-dfc93514b01c",
+   "media_type": "image",
+   "media_url": "media/tiandi/t02/1.jpg",
+   "sort_order": 1
+  },
+  {
+   "id": "d372d154-64ad-44e1-9da5-3a4b50363604",
+   "room_type_id": "570cb2aa-bcdd-4e97-8d14-84f9a4b6a2b1",
+   "media_type": "image",
+   "media_url": "media/tiandi/t04/2.jpg",
+   "sort_order": 2
+  },
+  {
+   "id": "c48fb85f-743d-4de2-a360-46f257acab17",
+   "room_type_id": "6caabd66-6313-4702-a022-dfc93514b01c",
+   "media_type": "image",
+   "media_url": "media/tiandi/t02/2.jpg",
+   "sort_order": 2
+  },
+  {
+   "id": "91f42992-ece7-4a42-ad8f-ad8c39f3ca7c",
+   "room_type_id": "5ee50ef5-1548-4409-9e9b-6a4bad7bc280",
+   "media_type": "image",
+   "media_url": "media/tiandi/t07/2.jpg",
+   "sort_order": 2
+  },
+  {
+   "id": "66e421bb-d996-4541-9360-6879fe7e8f0d",
+   "room_type_id": "e93b2f5c-12c5-4ff6-8a22-6f8853f3286b",
+   "media_type": "image",
+   "media_url": "media/tiandi/t11/2.jpg",
+   "sort_order": 2
+  },
+  {
+   "id": "f79c161d-b02c-4196-b4c5-aae229e708a8",
+   "room_type_id": "32082f51-fec7-4dab-9e2c-87c87625a3d9",
+   "media_type": "image",
+   "media_url": "media/tiandi/t09/2.jpg",
+   "sort_order": 2
+  },
+  {
+   "id": "78fdcd21-419e-48cb-856f-c6dc0c431fc5",
+   "room_type_id": "d91f511f-78b9-4874-970d-f2065058ce7f",
+   "media_type": "image",
+   "media_url": "media/tiandi/t01/2.jpg",
+   "sort_order": 2
+  },
+  {
+   "id": "cc519f44-d37f-4d90-bb2e-88a02eafa5bd",
+   "room_type_id": "c796b0f9-4d4d-45c6-b652-7fdcabdb0e3c",
+   "media_type": "image",
+   "media_url": "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=1200&q=80&auto=format&fit=crop",
+   "sort_order": 2
+  },
+  {
+   "id": "114618b1-c41f-421e-8ef2-c44ad5d9b683",
+   "room_type_id": "4047ed0c-b892-4a5c-9c1f-def0557d6623",
+   "media_type": "image",
+   "media_url": "media/hanxi/t02/2.jpg",
+   "sort_order": 2
+  },
+  {
+   "id": "8312fd46-9ef6-411c-8f67-aa254b8bba1b",
+   "room_type_id": "29079f6f-7e08-4f19-9a34-b0dae0b9db02",
+   "media_type": "image",
+   "media_url": "media/hanxi/t01/2.jpg",
+   "sort_order": 2
+  },
+  {
+   "id": "2cad663d-62e3-48f5-88fe-f99f642d38ec",
+   "room_type_id": "9a3861bb-c7d4-43fe-85d7-71f40689ad37",
+   "media_type": "image",
+   "media_url": "media/tiandi/t06/2.jpg",
+   "sort_order": 2
+  },
+  {
+   "id": "d07cf4e3-4206-489b-be78-415b66b76450",
+   "room_type_id": "7c9d6942-fcea-4ef5-8bf6-d8e116f5e1b2",
+   "media_type": "image",
+   "media_url": "media/tiandi/t05/2.jpg",
+   "sort_order": 2
+  },
+  {
+   "id": "4bcf84aa-c90a-4b42-9a0d-8fdf365ac4a4",
+   "room_type_id": "444e2c0b-1eb6-4744-a69e-2fff50d3a989",
+   "media_type": "image",
+   "media_url": "media/hanxi/t03/2.jpg",
+   "sort_order": 2
+  },
+  {
+   "id": "429e5d58-bbf1-40a6-b47b-cc7b3f52dca7",
+   "room_type_id": "04f226b9-ffbe-4e09-933c-62851dee8f33",
+   "media_type": "image",
+   "media_url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80&auto=format&fit=crop",
+   "sort_order": 2
+  },
+  {
+   "id": "93010640-7866-4fdb-8307-f5abacf1568f",
+   "room_type_id": "70edd968-7c6f-41cd-b2f0-9a774f3f8006",
+   "media_type": "image",
+   "media_url": "media/tiandi/t08/2.jpg",
+   "sort_order": 2
+  },
+  {
+   "id": "edafbeef-8363-4d56-9694-37c2b1a7a2ad",
+   "room_type_id": "70a9c1de-896a-4677-9e1d-fa10e0e6e45c",
+   "media_type": "image",
+   "media_url": "media/tiandi/t03/2.jpg",
+   "sort_order": 2
+  },
+  {
+   "id": "2973089d-97ce-477c-95be-65d2bef9e686",
+   "room_type_id": "fa6e16f1-f36b-4890-869f-4856c3a4e0bd",
+   "media_type": "image",
+   "media_url": "media/tiandi/t10/2.jpg",
+   "sort_order": 2
+  },
+  {
+   "id": "3a70886f-154c-4a09-a2de-9a5f8f9c791c",
+   "room_type_id": "e93b2f5c-12c5-4ff6-8a22-6f8853f3286b",
+   "media_type": "image",
+   "media_url": "media/tiandi/t11/3.jpg",
+   "sort_order": 3
+  },
+  {
+   "id": "621d45b7-bc28-468c-b43b-0b380c4edb2b",
+   "room_type_id": "29079f6f-7e08-4f19-9a34-b0dae0b9db02",
+   "media_type": "image",
+   "media_url": "media/hanxi/t01/3.jpg",
+   "sort_order": 3
+  },
+  {
+   "id": "ef603fd9-6cec-4575-b721-582002bb3435",
+   "room_type_id": "32082f51-fec7-4dab-9e2c-87c87625a3d9",
+   "media_type": "image",
+   "media_url": "media/tiandi/t09/3.jpg",
+   "sort_order": 3
+  },
+  {
+   "id": "698efda1-ed41-40dc-9f7f-8088d03d4b24",
+   "room_type_id": "4047ed0c-b892-4a5c-9c1f-def0557d6623",
+   "media_type": "image",
+   "media_url": "media/hanxi/t02/3.jpg",
+   "sort_order": 3
+  },
+  {
+   "id": "e6b3be47-8a1e-445c-ab55-179234fa3951",
+   "room_type_id": "444e2c0b-1eb6-4744-a69e-2fff50d3a989",
+   "media_type": "image",
+   "media_url": "media/hanxi/t03/3.jpg",
+   "sort_order": 3
+  },
+  {
+   "id": "9229141b-07e8-47ce-99a7-281d1cf218ea",
+   "room_type_id": "570cb2aa-bcdd-4e97-8d14-84f9a4b6a2b1",
+   "media_type": "image",
+   "media_url": "media/tiandi/t04/3.jpg",
+   "sort_order": 3
+  },
+  {
+   "id": "de823be2-e4d5-4377-bdf6-e226f3b8e20f",
+   "room_type_id": "5ee50ef5-1548-4409-9e9b-6a4bad7bc280",
+   "media_type": "image",
+   "media_url": "media/tiandi/t07/3.jpg",
+   "sort_order": 3
+  },
+  {
+   "id": "8f78138c-5a43-477f-b253-85ddcf7b9551",
+   "room_type_id": "6caabd66-6313-4702-a022-dfc93514b01c",
+   "media_type": "image",
+   "media_url": "media/tiandi/t02/3.jpg",
+   "sort_order": 3
+  },
+  {
+   "id": "52b87747-5509-4fcc-9e2a-eb5d6b4021b0",
+   "room_type_id": "70a9c1de-896a-4677-9e1d-fa10e0e6e45c",
+   "media_type": "image",
+   "media_url": "media/tiandi/t03/3.jpg",
+   "sort_order": 3
+  },
+  {
+   "id": "648fa081-17a1-4f01-8305-20afab5309ed",
+   "room_type_id": "70edd968-7c6f-41cd-b2f0-9a774f3f8006",
+   "media_type": "image",
+   "media_url": "media/tiandi/t08/3.jpg",
+   "sort_order": 3
+  },
+  {
+   "id": "8b00f9b0-ebc2-4c52-af54-ebd8f47662dd",
+   "room_type_id": "7c9d6942-fcea-4ef5-8bf6-d8e116f5e1b2",
+   "media_type": "image",
+   "media_url": "media/tiandi/t05/3.jpg",
+   "sort_order": 3
+  },
+  {
+   "id": "f16b3127-37d4-449b-a7ca-40963a8420de",
+   "room_type_id": "d91f511f-78b9-4874-970d-f2065058ce7f",
+   "media_type": "image",
+   "media_url": "media/tiandi/t01/3.jpg",
+   "sort_order": 3
+  },
+  {
+   "id": "cca9cd9a-0754-4b7d-9abf-7b7cc65c74a3",
+   "room_type_id": "fa6e16f1-f36b-4890-869f-4856c3a4e0bd",
+   "media_type": "image",
+   "media_url": "media/tiandi/t10/3.jpg",
+   "sort_order": 3
+  },
+  {
+   "id": "9f8c9cd5-d539-401d-89eb-a2170ba2ecb5",
+   "room_type_id": "70edd968-7c6f-41cd-b2f0-9a774f3f8006",
+   "media_type": "image",
+   "media_url": "media/tiandi/t08/4.jpg",
+   "sort_order": 4
+  },
+  {
+   "id": "96422f48-c4aa-4455-98c9-4a3f0b83aae2",
+   "room_type_id": "570cb2aa-bcdd-4e97-8d14-84f9a4b6a2b1",
+   "media_type": "image",
+   "media_url": "media/tiandi/t04/4.jpg",
+   "sort_order": 4
+  },
+  {
+   "id": "e3a26c78-3a00-4ae0-b117-75ee8440c05a",
+   "room_type_id": "29079f6f-7e08-4f19-9a34-b0dae0b9db02",
+   "media_type": "image",
+   "media_url": "media/hanxi/t01/4.jpg",
+   "sort_order": 4
+  },
+  {
+   "id": "54df7177-3435-4cde-84b1-a7d35e754109",
+   "room_type_id": "70a9c1de-896a-4677-9e1d-fa10e0e6e45c",
+   "media_type": "video",
+   "media_url": "media/tiandi/t03/v.mp4",
+   "sort_order": 4
+  },
+  {
+   "id": "cd4124f5-5121-4a79-b285-2a6f48c510d0",
+   "room_type_id": "444e2c0b-1eb6-4744-a69e-2fff50d3a989",
+   "media_type": "image",
+   "media_url": "media/hanxi/t03/4.jpg",
+   "sort_order": 4
+  },
+  {
+   "id": "6ef45aab-0fd7-4460-83f4-6f68f9caeb58",
+   "room_type_id": "fa6e16f1-f36b-4890-869f-4856c3a4e0bd",
+   "media_type": "image",
+   "media_url": "media/tiandi/t10/4.jpg",
+   "sort_order": 4
+  },
+  {
+   "id": "1b1c5331-4d6f-42c2-a529-af4895e65c9e",
+   "room_type_id": "7c9d6942-fcea-4ef5-8bf6-d8e116f5e1b2",
+   "media_type": "image",
+   "media_url": "media/tiandi/t05/4.jpg",
+   "sort_order": 4
+  },
+  {
+   "id": "e3611ced-bdd8-42b5-9484-5ff422b1f1e5",
+   "room_type_id": "4047ed0c-b892-4a5c-9c1f-def0557d6623",
+   "media_type": "image",
+   "media_url": "media/hanxi/t02/4.jpg",
+   "sort_order": 4
+  },
+  {
+   "id": "b5f50e68-7b82-4af5-97d6-7c9cb0a7caa6",
+   "room_type_id": "d91f511f-78b9-4874-970d-f2065058ce7f",
+   "media_type": "image",
+   "media_url": "media/tiandi/t01/4.jpg",
+   "sort_order": 4
+  },
+  {
+   "id": "c2d6d2be-3047-43b7-857d-ba6403f31106",
+   "room_type_id": "32082f51-fec7-4dab-9e2c-87c87625a3d9",
+   "media_type": "image",
+   "media_url": "media/tiandi/t09/4.jpg",
+   "sort_order": 4
+  },
+  {
+   "id": "e89d1145-6da0-4034-8817-254225bb6c71",
+   "room_type_id": "e93b2f5c-12c5-4ff6-8a22-6f8853f3286b",
+   "media_type": "image",
+   "media_url": "media/tiandi/t11/4.jpg",
+   "sort_order": 4
+  },
+  {
+   "id": "fa09afe3-6e0f-4cfc-841f-ef81a3aed413",
+   "room_type_id": "5ee50ef5-1548-4409-9e9b-6a4bad7bc280",
+   "media_type": "image",
+   "media_url": "media/tiandi/t07/4.jpg",
+   "sort_order": 4
+  },
+  {
+   "id": "865ca376-9f10-4445-8d8f-2a0f709342b1",
+   "room_type_id": "6caabd66-6313-4702-a022-dfc93514b01c",
+   "media_type": "image",
+   "media_url": "media/tiandi/t02/4.jpg",
+   "sort_order": 4
+  },
+  {
+   "id": "c0a3c2fa-9881-4cf8-9a5d-f1ef2a1aebed",
+   "room_type_id": "e93b2f5c-12c5-4ff6-8a22-6f8853f3286b",
+   "media_type": "image",
+   "media_url": "media/tiandi/t11/5.jpg",
+   "sort_order": 5
+  },
+  {
+   "id": "76bb9b4d-a1cc-439c-b420-83763be10da2",
+   "room_type_id": "7c9d6942-fcea-4ef5-8bf6-d8e116f5e1b2",
+   "media_type": "image",
+   "media_url": "media/tiandi/t05/5.jpg",
+   "sort_order": 5
+  },
+  {
+   "id": "71d751e1-42b0-4f9e-af25-7a397d8cf969",
+   "room_type_id": "4047ed0c-b892-4a5c-9c1f-def0557d6623",
+   "media_type": "image",
+   "media_url": "media/hanxi/t02/5.jpg",
+   "sort_order": 5
+  },
+  {
+   "id": "5d6dc0ec-947f-4ec5-8737-7fec9ce638c2",
+   "room_type_id": "5ee50ef5-1548-4409-9e9b-6a4bad7bc280",
+   "media_type": "image",
+   "media_url": "media/tiandi/t07/5.jpg",
+   "sort_order": 5
+  },
+  {
+   "id": "dd9694e8-3dc1-4c3c-b94b-c7546aa97768",
+   "room_type_id": "32082f51-fec7-4dab-9e2c-87c87625a3d9",
+   "media_type": "image",
+   "media_url": "media/tiandi/t09/5.jpg",
+   "sort_order": 5
+  },
+  {
+   "id": "32906676-693b-4727-913c-d80d43773e5d",
+   "room_type_id": "fa6e16f1-f36b-4890-869f-4856c3a4e0bd",
+   "media_type": "image",
+   "media_url": "media/tiandi/t10/5.jpg",
+   "sort_order": 5
+  },
+  {
+   "id": "02fd4a15-a0f9-4b2d-990c-fc947295c8b9",
+   "room_type_id": "d91f511f-78b9-4874-970d-f2065058ce7f",
+   "media_type": "image",
+   "media_url": "media/tiandi/t01/5.jpg",
+   "sort_order": 5
+  },
+  {
+   "id": "cb07d551-c397-4115-acd2-54e58bcdd29f",
+   "room_type_id": "29079f6f-7e08-4f19-9a34-b0dae0b9db02",
+   "media_type": "image",
+   "media_url": "media/hanxi/t01/5.jpg",
+   "sort_order": 5
+  },
+  {
+   "id": "1f56681a-59ed-472c-9974-cda4dc716d66",
+   "room_type_id": "570cb2aa-bcdd-4e97-8d14-84f9a4b6a2b1",
+   "media_type": "image",
+   "media_url": "media/tiandi/t04/5.jpg",
+   "sort_order": 5
+  },
+  {
+   "id": "be048e8e-575e-4974-84be-f36a9e9edaad",
+   "room_type_id": "444e2c0b-1eb6-4744-a69e-2fff50d3a989",
+   "media_type": "image",
+   "media_url": "media/hanxi/t03/5.jpg",
+   "sort_order": 5
+  },
+  {
+   "id": "79bf0b0c-f996-413f-9728-5feb9e091ccd",
+   "room_type_id": "6caabd66-6313-4702-a022-dfc93514b01c",
+   "media_type": "image",
+   "media_url": "media/tiandi/t02/5.jpg",
+   "sort_order": 5
+  },
+  {
+   "id": "60564173-7abe-4d69-a29d-a8fa893f64c5",
+   "room_type_id": "70edd968-7c6f-41cd-b2f0-9a774f3f8006",
+   "media_type": "image",
+   "media_url": "media/tiandi/t08/5.jpg",
+   "sort_order": 5
+  },
+  {
+   "id": "8f9a873d-076f-489f-9119-83f838b7f05e",
+   "room_type_id": "fa6e16f1-f36b-4890-869f-4856c3a4e0bd",
+   "media_type": "video",
+   "media_url": "media/tiandi/t10/v.mp4",
+   "sort_order": 6
+  },
+  {
+   "id": "53e930b7-e749-4087-960b-f4e6f3522ef4",
+   "room_type_id": "5ee50ef5-1548-4409-9e9b-6a4bad7bc280",
+   "media_type": "image",
+   "media_url": "media/tiandi/t07/6.jpg",
+   "sort_order": 6
+  },
+  {
+   "id": "1f605c52-c846-4361-a679-c1bed365dbf4",
+   "room_type_id": "444e2c0b-1eb6-4744-a69e-2fff50d3a989",
+   "media_type": "image",
+   "media_url": "media/hanxi/t03/6.jpg",
+   "sort_order": 6
+  },
+  {
+   "id": "4fbdf58e-1244-404a-b751-86d174156be4",
+   "room_type_id": "d91f511f-78b9-4874-970d-f2065058ce7f",
+   "media_type": "image",
+   "media_url": "media/tiandi/t01/6.jpg",
+   "sort_order": 6
+  },
+  {
+   "id": "b921b57a-ce79-488f-89c4-dbecfa53a275",
+   "room_type_id": "70edd968-7c6f-41cd-b2f0-9a774f3f8006",
+   "media_type": "image",
+   "media_url": "media/tiandi/t08/6.jpg",
+   "sort_order": 6
+  },
+  {
+   "id": "1c43bb84-126e-4065-b646-66845180b3fa",
+   "room_type_id": "6caabd66-6313-4702-a022-dfc93514b01c",
+   "media_type": "image",
+   "media_url": "media/tiandi/t02/6.jpg",
+   "sort_order": 6
+  },
+  {
+   "id": "0107df92-840d-4fc7-9571-5f165bfb0b3a",
+   "room_type_id": "e93b2f5c-12c5-4ff6-8a22-6f8853f3286b",
+   "media_type": "image",
+   "media_url": "media/tiandi/t11/6.jpg",
+   "sort_order": 6
+  },
+  {
+   "id": "d1df2311-8875-483f-b7dc-0918e3c00861",
+   "room_type_id": "7c9d6942-fcea-4ef5-8bf6-d8e116f5e1b2",
+   "media_type": "image",
+   "media_url": "media/tiandi/t05/6.jpg",
+   "sort_order": 6
+  },
+  {
+   "id": "0d2ee97e-4340-4cab-bb99-db47ad8e6a04",
+   "room_type_id": "4047ed0c-b892-4a5c-9c1f-def0557d6623",
+   "media_type": "image",
+   "media_url": "media/hanxi/t02/6.jpg",
+   "sort_order": 6
+  },
+  {
+   "id": "3d8deb0c-18f3-448e-b780-a3e0c10efd85",
+   "room_type_id": "32082f51-fec7-4dab-9e2c-87c87625a3d9",
+   "media_type": "image",
+   "media_url": "media/tiandi/t09/6.jpg",
+   "sort_order": 6
+  },
+  {
+   "id": "0f1a64c8-13e6-4f23-a840-55c0561b6a5f",
+   "room_type_id": "29079f6f-7e08-4f19-9a34-b0dae0b9db02",
+   "media_type": "image",
+   "media_url": "media/hanxi/t01/6.jpg",
+   "sort_order": 6
+  },
+  {
+   "id": "6251b7df-0463-4616-b249-6c02b83c3d0d",
+   "room_type_id": "32082f51-fec7-4dab-9e2c-87c87625a3d9",
+   "media_type": "video",
+   "media_url": "media/tiandi/t09/v.mp4",
+   "sort_order": 7
+  },
+  {
+   "id": "6c771cda-d84d-4d31-8316-1d3404a394e9",
+   "room_type_id": "4047ed0c-b892-4a5c-9c1f-def0557d6623",
+   "media_type": "video",
+   "media_url": "media/hanxi/t02/v.mp4",
+   "sort_order": 7
+  },
+  {
+   "id": "d0454279-56c5-4244-bf8c-425396248227",
+   "room_type_id": "29079f6f-7e08-4f19-9a34-b0dae0b9db02",
+   "media_type": "video",
+   "media_url": "media/hanxi/t01/v.mp4",
+   "sort_order": 7
+  },
+  {
+   "id": "10202c63-0795-462e-b64a-44e9c28d39dd",
+   "room_type_id": "e93b2f5c-12c5-4ff6-8a22-6f8853f3286b",
+   "media_type": "video",
+   "media_url": "media/tiandi/t11/v.mp4",
+   "sort_order": 7
+  },
+  {
+   "id": "0d4d0030-ac9b-4b1e-8763-19aa706e9a30",
+   "room_type_id": "6caabd66-6313-4702-a022-dfc93514b01c",
+   "media_type": "video",
+   "media_url": "media/tiandi/t02/v.mp4",
+   "sort_order": 7
+  },
+  {
+   "id": "25f8a71d-3d1f-4ca9-ba2b-90dffcc49449",
+   "room_type_id": "444e2c0b-1eb6-4744-a69e-2fff50d3a989",
+   "media_type": "video",
+   "media_url": "media/hanxi/t03/v.mp4",
+   "sort_order": 7
+  }
+ ],
+ "availableRooms": [
+  {
+   "id": "74f4b244-504d-49f1-94d8-f83e7d88cade",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "room_type_id": "b8ce2883-d903-47a3-919b-dd177ae2d1c1",
+   "room_number": "207",
+   "rent": 1250,
+   "management_fee": 150,
+   "status": "available",
+   "public_note": "",
+   "sort_order": 1,
+   "is_public": true,
+   "type_label": ""
+  },
+  {
+   "id": "7351a6fa-39f4-4505-a5ce-821928392b32",
+   "store_id": "db65e513-230c-4c87-ab5d-905ea10d043d",
+   "room_type_id": "04f226b9-ffbe-4e09-933c-62851dee8f33",
+   "room_number": "207",
+   "rent": 1250,
+   "management_fee": 150,
+   "status": "available",
+   "public_note": "样板间",
+   "sort_order": 1,
+   "is_public": true,
+   "type_label": "单间"
+  },
+  {
+   "id": "c0ca715f-3067-41db-a872-427015f96975",
+   "store_id": "965ccf92-9a79-45b8-9725-baf762bc2f89",
+   "room_type_id": "c796b0f9-4d4d-45c6-b652-7fdcabdb0e3c",
+   "room_number": "368",
+   "rent": 1500,
+   "management_fee": 150,
+   "status": "available",
+   "public_note": "独门独户",
+   "sort_order": 1,
+   "is_public": true,
+   "type_label": "一房一厅"
+  },
+  {
+   "id": "c65b5292-d58f-4eec-a719-c680f9ffdc1d",
+   "store_id": "3526e215-08c5-4264-a701-3ad9a9ad2d27",
+   "room_type_id": "da0c04a6-b938-4a96-8d28-2796ab2474ce",
+   "room_number": "519",
+   "rent": 1300,
+   "management_fee": 150,
+   "status": "available",
+   "public_note": "近地铁",
+   "sort_order": 1,
+   "is_public": true,
+   "type_label": "单间"
+  },
+  {
+   "id": "d9f9b038-1f1b-49a9-ac1b-6cb2be334c34",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "room_type_id": "b8ce2883-d903-47a3-919b-dd177ae2d1c1",
+   "room_number": "310",
+   "rent": 1300,
+   "management_fee": 150,
+   "status": "available",
+   "public_note": "",
+   "sort_order": 2,
+   "is_public": true,
+   "type_label": ""
+  },
+  {
+   "id": "2649f940-d35f-495d-806c-4c7f9f0bfd27",
+   "store_id": "db65e513-230c-4c87-ab5d-905ea10d043d",
+   "room_type_id": "04f226b9-ffbe-4e09-933c-62851dee8f33",
+   "room_number": "310",
+   "rent": 1150,
+   "management_fee": 150,
+   "status": "available",
+   "public_note": "",
+   "sort_order": 2,
+   "is_public": true,
+   "type_label": "单间"
+  },
+  {
+   "id": "ca156665-8e4b-47f1-9993-acd8b1b8694e",
+   "store_id": "db65e513-230c-4c87-ab5d-905ea10d043d",
+   "room_type_id": "9e124921-f220-4f9c-97f0-cc33a257d0dd",
+   "room_number": "403",
+   "rent": 1450,
+   "management_fee": 150,
+   "status": "available",
+   "public_note": "采光好",
+   "sort_order": 3,
+   "is_public": true,
+   "type_label": "大开间"
+  },
+  {
+   "id": "a852aea0-0745-429e-ab2a-85f26ecda94b",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "room_type_id": "288e803d-f0c7-4217-850f-9b11102f2809",
+   "room_number": "319",
+   "rent": 1550,
+   "management_fee": 150,
+   "status": "available",
+   "public_note": "样板间",
+   "sort_order": 3,
+   "is_public": true,
+   "type_label": ""
+  },
+  {
+   "id": "cf0e4577-8675-455d-abe5-ff4d0f1f78d1",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "room_type_id": "b8ce2883-d903-47a3-919b-dd177ae2d1c1",
+   "room_number": "403",
+   "rent": 1300,
+   "management_fee": 150,
+   "status": "available",
+   "public_note": "样板间",
+   "sort_order": 4,
+   "is_public": true,
+   "type_label": ""
+  },
+  {
+   "id": "c60bee08-fd81-4310-89e4-ad8e1c1b44eb",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "room_type_id": "b8ce2883-d903-47a3-919b-dd177ae2d1c1",
+   "room_number": "423",
+   "rent": 1300,
+   "management_fee": 150,
+   "status": "available",
+   "public_note": "",
+   "sort_order": 5,
+   "is_public": true,
+   "type_label": ""
+  },
+  {
+   "id": "b0a92225-3a0a-4830-b755-fb83ed1243bf",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "room_type_id": "b8ce2883-d903-47a3-919b-dd177ae2d1c1",
+   "room_number": "201",
+   "rent": 1250,
+   "management_fee": 150,
+   "status": "available",
+   "public_note": "样板间",
+   "sort_order": 6,
+   "is_public": true,
+   "type_label": ""
+  },
+  {
+   "id": "a3b09758-a846-4523-a285-aa091d0b2c39",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "room_type_id": "b8ce2883-d903-47a3-919b-dd177ae2d1c1",
+   "room_number": "229",
+   "rent": 1250,
+   "management_fee": 150,
+   "status": "available",
+   "public_note": "",
+   "sort_order": 7,
+   "is_public": true,
+   "type_label": ""
+  },
+  {
+   "id": "4a924ca5-fc36-44ff-9d1a-a5e2925236c1",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "room_type_id": "288e803d-f0c7-4217-850f-9b11102f2809",
+   "room_number": "214",
+   "rent": 1550,
+   "management_fee": 150,
+   "status": "available",
+   "public_note": "",
+   "sort_order": 8,
+   "is_public": true,
+   "type_label": ""
+  },
+  {
+   "id": "6d5d5b95-816d-4fdc-97e4-078e5cb28a65",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "room_type_id": "288e803d-f0c7-4217-850f-9b11102f2809",
+   "room_number": "222",
+   "rent": 1550,
+   "management_fee": 150,
+   "status": "available",
+   "public_note": "",
+   "sort_order": 9,
+   "is_public": true,
+   "type_label": ""
+  },
+  {
+   "id": "6b57efda-f254-48b1-b298-0eadd371e5bb",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "room_type_id": "b8ce2883-d903-47a3-919b-dd177ae2d1c1",
+   "room_number": "312",
+   "rent": 1300,
+   "management_fee": 150,
+   "status": "available",
+   "public_note": "",
+   "sort_order": 10,
+   "is_public": true,
+   "type_label": ""
+  },
+  {
+   "id": "803a2b53-9203-424e-a18d-dd3cd23b8e49",
+   "store_id": "c23dfdf5-7887-4ff6-b8f9-ea99db178ed2",
+   "room_type_id": "b8ce2883-d903-47a3-919b-dd177ae2d1c1",
+   "room_number": "427",
+   "rent": 1300,
+   "management_fee": 150,
+   "status": "available",
+   "public_note": "",
+   "sort_order": 11,
+   "is_public": true,
+   "type_label": ""
+  }
+ ],
+ "priceSheets": []
 };
