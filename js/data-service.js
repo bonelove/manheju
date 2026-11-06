@@ -5,7 +5,7 @@
 (function(){
   const cfg = window.MANHEJU_CONFIG || {};
   const isLive = !!(cfg.supabaseUrl && cfg.supabaseAnonKey);
-  const BASE = (cfg.supabaseUrl || "").replace(/\/$/,"");
+  const BASE = (cfg.apiBase || cfg.supabaseUrl || "").replace(/\/$/,"");
   const ANON = cfg.supabaseAnonKey || "";
 
   // ---------- 基础请求（带超时与重试） ----------
