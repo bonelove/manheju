@@ -36,8 +36,8 @@ window.zoom=function(src){ document.getElementById('lightboxImg').src=src; lb.cl
       <h2 class="section-title">房型展示<small>${types.length?types.length+' 种房型':''}</small></h2>
       ${types.length?types.map(t=>{ const ms=media[t.id]||[]; const gallery = ms.length?ms: (t.cover_url?[{media_type:'image',media_url:t.cover_url}]:[]);
         return `<article class="type-card">${gallery.length?`<div class="gallery">${gallery.map(m=> m.media_type==='video'
-          ? `<video controls playsinline preload="metadata" src="${esc(m.media_url)}"></video>`
-          : `<img loading="lazy" src="${esc(m.media_url)}" alt="${esc(t.name)}" onclick="zoom(this.src)">`).join('')}</div>`:''}
+          ? `<video controls playsinline preload="none" poster="${esc(t.cover_url||'')}" src="${esc(m.media_url)}"></video>`
+          : `<img loading="lazy" decoding="async" src="${esc(m.media_url)}" alt="${esc(t.name)}" onclick="zoom(this.src)">`).join('')}</div>`:''}
         <div class="type-body"><h3>${esc(t.name)}</h3><p>${esc(t.summary||'')}</p>
         ${t.highlights&&t.highlights.length?`<div class="tags">${(Array.isArray(t.highlights)?t.highlights:t.highlights.split(/[,，]/)).map(h=>`<span class="tag">${esc(h)}</span>`).join('')}</div>`:''}</div></article>`}).join(''):'<div class="empty">这家门店的房型照片正在整理中</div>'}
 
