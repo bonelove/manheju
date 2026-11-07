@@ -50,7 +50,7 @@ window.zoom=function(src){ document.getElementById('lightboxImg').src=src; lb.cl
       <li>无中介费，自家房源直租，自有团队打理，安全性好</li>
       <li>支持短租，1个月起；长租也可以，押一付一</li></ul></section>
       <div class="sticky-cta"><div><div class="p"><b>${esc(store.starting_price)}</b> 元/月起</div><div class="n">${esc(store.name)} · 当前 ${rooms.length} 间可租</div></div><div class="n" style="text-align:right">房源实时更新<br>看房请微信联系门店</div></div>
-      <footer>漫和居公寓 · ${esc(store.name)}<br>看中房源请通过微信直接联系门店</footer>`;
+      <footer><span class="foot-card">漫和居公寓 · ${esc(store.name)}<br>看中房源请通过微信直接联系门店</span></footer>`;
   }catch(e){ app.innerHTML='<div class="empty" style="margin-top:24px">这家店没加载出来，可能是网络信号不好。<br><a href="javascript:location.reload()" style="color:var(--accent);font-weight:700">点这里重新加载</a><br><br><a href="index.html">← 返回全部门店</a></div>'; }
 })();
 </script></body></html>
