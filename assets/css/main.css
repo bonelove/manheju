@@ -26,18 +26,17 @@ img{display:block;max-width:100%}
 .topbar .brand::before{content:"";width:9px;height:9px;border-radius:3px;background:linear-gradient(135deg,var(--accent-mid),var(--accent-deep));box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
 .topbar .tb-badge{font-size:12px;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:4px 10px;font-weight:600}
 
-/* ---------- Hero ---------- */
-.hero{position:relative;padding:34px 20px 8px;text-align:center;overflow:hidden}
-.hero::before{content:"";position:absolute;inset:-40% -20% auto;height:340px;pointer-events:none;
-  background:radial-gradient(420px 200px at 18% 30%,rgba(20,96,74,.13),transparent 65%),
-             radial-gradient(460px 220px at 84% 10%,rgba(200,150,80,.14),transparent 65%)}
-.hero h1{position:relative;font-size:36px;line-height:1.15;letter-spacing:-.01em;margin:0;font-weight:800;color:var(--ink)}
-.hero h1 .en{display:block;font-size:12px;letter-spacing:.34em;font-weight:600;color:var(--faint);margin-bottom:8px;text-transform:uppercase}
-.hero p{position:relative;color:var(--muted);margin:10px auto 0;font-size:15px;max-width:30em}
-.hero .slogan{font-size:19px;color:var(--accent-deep);font-weight:600;margin-top:14px;letter-spacing:.01em}
-.common-adv{position:relative;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:16px 0 6px}
-.common-adv span{background:rgba(255,255,255,.8);border:1px solid var(--line);color:var(--accent-deep);
-  border-radius:999px;padding:5px 13px;font-size:13px;font-weight:500;box-shadow:var(--shadow-sm)}
+/* ---------- Hero：公寓照片打底，与底部同款深色毛玻璃 ---------- */
+.hero{position:relative;padding:44px 20px 30px;text-align:center;overflow:hidden;background:#101613}
+.hero::before{content:"";position:absolute;inset:0;background:url(../../media/common/changan-living.jpg) center 32%/cover no-repeat;filter:brightness(.6) saturate(1.08);transform:scale(1.03)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,13,11,.62),rgba(9,13,11,.38) 55%,rgba(9,13,11,.55))}
+.hero h1{position:relative;z-index:1;font-size:36px;line-height:1.15;letter-spacing:-.01em;margin:0;font-weight:800;color:#fff}
+.hero h1 .en{display:block;font-size:12px;letter-spacing:.34em;font-weight:600;color:rgba(255,255,255,.62);margin-bottom:8px;text-transform:uppercase}
+.hero p{position:relative;z-index:1;color:rgba(255,255,255,.85);margin:10px auto 0;font-size:15px;max-width:30em}
+.hero .slogan{position:relative;z-index:1;font-size:19px;color:#E9C98A;font-weight:600;margin-top:14px;letter-spacing:.01em}
+.common-adv{position:relative;z-index:1;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:16px 0 6px}
+.common-adv span{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);color:rgba(255,255,255,.95);
+  border-radius:999px;padding:5px 13px;font-size:13px;font-weight:500;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 .pick-hint{text-align:center;color:var(--faint);font-size:13px;margin:14px 0 14px;letter-spacing:.02em}
 
 /* ---------- 门店卡片 ---------- */
