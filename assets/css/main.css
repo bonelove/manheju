@@ -74,7 +74,11 @@ img{display:block;max-width:100%}
 .section-title{font-size:23px;font-weight:800;letter-spacing:-.01em;margin:34px 0 14px;color:var(--ink);display:flex;align-items:baseline;gap:10px}
 .section-title small{font-size:13px;color:var(--faint);font-weight:500}
 .empty{background:var(--card);border:1px dashed #DDD8C9;border-radius:var(--r-lg);padding:26px;text-align:center;color:var(--muted)}
-footer{text-align:center;color:var(--faint);font-size:13px;padding:30px 16px;line-height:1.7}
+/* ---------- 页脚：墨黑毛玻璃·夜景公寓 ---------- */
+footer{position:relative;overflow:hidden;text-align:center;padding:52px 20px 60px;margin-top:10px;background:#101613}
+footer::before{content:"";position:absolute;inset:0;background:url(../../media/common/guanggu-living.jpg) center 35%/cover no-repeat;filter:brightness(.6) saturate(1.08);transform:scale(1.03)}
+footer::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,13,11,.45),rgba(9,13,11,.18) 45%,rgba(9,13,11,.58))}
+.foot-card{position:relative;z-index:1;display:inline-block;color:rgba(255,255,255,.94);font-size:13px;line-height:1.8;padding:16px 22px;border-radius:18px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 8px 30px rgba(0,0,0,.28)}
 .demo-banner{background:#FFF7E8;border-bottom:1px solid #ECD9AE;color:#7A5A16;text-align:center;font-size:13px;padding:8px 12px}
 
 /* ---------- 骨架屏 ---------- */
